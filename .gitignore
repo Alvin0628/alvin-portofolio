@@ -1,0 +1,6 @@
+*.zip
+tools/
+__pycache__/
+.vercel
+.DS_Store
+Thumbs.db
