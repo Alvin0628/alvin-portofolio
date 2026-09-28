@@ -1,0 +1,358 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Martinus Alvin Haryanto Portfolio</title>
+    <meta
+      name="description"
+      content="Undergraduate CS student at BINUS University building end-to-end machine learning systems: research, data platforms, and deployed computer vision products."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="assets/css/style.css" />
+  </head>
+  <body class="t-home">
+    <header class="nav">
+      <div class="w">
+        <a class="logo" href="#top">MAH</a>
+        <nav>
+          <a href="#work">Work</a><a href="#about">About</a
+          ><a href="#contact">Contact</a>
+          <div class="dd">
+            <button aria-haspopup="true">Resume ↓</button>
+            <div class="ddm">
+              <a href="assets/resume/Alvin_Resume.pdf" download>Download PDF</a
+              ><a href="assets/resume/Alvin_Resume.docx" download
+                >Download Word</a
+              >
+            </div>
+          </div>
+        </nav>
+      </div>
+    </header>
+    <main id="top">
+      <section class="hero">
+        <div class="w">
+          <h1>
+            <span>Martinus Alvin Haryanto</span
+            ><span
+              id="roles"
+              data-w="Data Science|Machine Learning|Computer Vision|NLP|MLOps|ML Engineering"
+            ></span
+            ><span>Practitioner</span>
+          </h1>
+          <p
+            class="type"
+            id="type"
+            data-p="I build end-to-end machine learning systems.|I build production ML pipelines.|I build computer vision products.|I build data platforms."
+          ></p>
+          <div class="cta">
+            <a class="btn p" href="#work">Projects</a>
+          </div>
+          <div class="meta">
+            <span>Based in Jakarta, Indonesia</span
+            ><span>Undergraduate CS Student, BINUS University</span>
+          </div>
+        </div>
+      </section>
+      <section id="work">
+        <div class="w">
+          <h2>Projects</h2>
+          <div class="stack">
+            <a
+              class="card t-dcs rv"
+              style="--i: 0"
+              href="projects/dcs-lca/index.html"
+              ><div class="vis">
+                <span
+                  class="badge"
+                  style="color: var(--bg); border-color: var(--bg)"
+                  >Research</span
+                >
+                <div>
+                  <b>DCS-LCA</b><br /><small>Student dropout prediction</small>
+                </div>
+              </div>
+              <div class="info">
+                <p>
+                  A heterogeneous specialist ensemble that beats static
+                  soft-voting on dropout prediction: augmentation-free, +2.98%
+                  accuracy, −70% log loss.
+                </p>
+                <span class="go">View details<span>→</span></span>
+              </div></a
+            ><a
+              class="card t-flow rv"
+              style="--i: 1"
+              href="projects/dataflow-simulation/index.html"
+              ><div class="vis">
+                <span
+                  class="badge"
+                  style="color: var(--bg); border-color: var(--bg)"
+                  >Data Platform Simulation</span
+                >
+                <div>
+                  <b>DataFlow</b><br /><small
+                    >Simulated e-commerce data platform</small
+                  >
+                </div>
+              </div>
+              <div class="info">
+                <p>
+                  Medallion warehouse, dbt marts, Airflow orchestration, and two
+                  ML pipelines feeding a live dashboard.
+                </p>
+                <span class="go">View details<span>→</span></span>
+              </div></a
+            ><a
+              class="card t-nutri rv"
+              style="--i: 2"
+              href="projects/nutrivision-pro/index.html"
+              ><div class="vis">
+                <span
+                  class="badge"
+                  style="color: var(--bg); border-color: var(--bg)"
+                  >Product</span
+                >
+                <div>
+                  <b>NutriVision Pro</b><br /><small
+                    >Food detection to nutrition</small
+                  >
+                </div>
+              </div>
+              <div class="info">
+                <p>
+                  Point your camera at a plate and get segmented food items with
+                  a full nutrition breakdown. Deployed on AWS, live on Vercel.
+                </p>
+                <span class="go">View details<span>→</span></span>
+              </div></a
+            >
+          </div>
+        </div>
+      </section>
+      <section id="about" class="about">
+        <div class="w">
+          <div class="rv">
+            <h2>About</h2>
+            <p class="lead">
+              I build end-to-end data and machine learning systems that
+              transform raw business data into production-ready intelligence.
+            </p>
+            <p>
+              My primary interests lie at the intersection of E-Commerce Data,
+              Data Engineering, and Machine Learning — particularly in designing
+              the journey from OLTP transactional systems to analytical OLAP
+              environments, and ultimately into scalable machine learning
+              pipelines and production applications.
+            </p>
+            <p>
+              I’m interested in the entire lifecycle of data and machine
+              learning: from data ingestion, transformation, and warehousing, to
+              feature engineering, model development, evaluation, deployment,
+              monitoring, and continuous training.
+            </p>
+            <p>
+              For me, a machine learning model is only one part of the solution.
+              The real challenge — and what I enjoy most — is engineering the
+              complete system around it, building pipelines that can
+              continuously process data, improve models, and deliver
+              intelligence reliably in production.
+            </p>
+          </div>
+          <ul class="focus rv">
+            <li>
+              <b>Applied ML &amp; Ensembles</b
+              ><span
+                >Dynamic Classifier Selection (DCS-LCA), asymmetric
+                cost-sensitive optimization, XGBoost, LightGBM</span
+              >
+            </li>
+            <li>
+              <b>Computer Vision &amp; Deep Learning</b
+              ><span
+                >Instance segmentation, fine-tuned YOLOv11-Seg, open-vocabulary
+                detection (Grounding DINO)</span
+              >
+            </li>
+            <li>
+              <b>MLOps &amp; Data Orchestration</b
+              ><span
+                >Apache Airflow, medallion architecture (ETL/ELT), Docker,
+                GitHub Actions</span
+              >
+            </li>
+            <li>
+              <b>Infrastructure &amp; Cloud</b
+              ><span>Firebase, Supabase, AWS, cloud deployment</span>
+            </li>
+          </ul>
+          <div class="blk rv">
+            <h3>Experience</h3>
+            <p class="org">
+              Himpunan Mahasiswa Teknik Informatika (HIMTI), BINUS University
+            </p>
+            <div class="tl">
+              <div>
+                <b>Activist — Publication &amp; Marketing</b
+                ><small>Oct 2024 – Oct 2025</small>
+                <p>
+                  Coordinated event planning and served as Event Coordinator for
+                  School of Computer Science programs, including TECHNO,
+                  SESVENT, and FEAST 2025, overseeing logistics and end-to-end
+                  event execution.
+                </p>
+              </div>
+              <div>
+                <b>Freshmen Partner</b><small>Sept 2025 – Sept 2026</small>
+                <p>
+                  Mentored first-year students in adapting to academic and
+                  campus life, providing guidance on university systems and
+                  student activities.
+                </p>
+              </div>
+              <div>
+                <b>Freshmen Leader</b><small>Sept 2025</small>
+                <p>
+                  Led orientation sessions and team-building activities during
+                  the Freshmen Year Program (FYP) to support first-year
+                  students' transition into university life.
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="blk rv">
+            <h3>Education</h3>
+            <div class="tl">
+              <div>
+                <b>Computer Science</b
+                ><small>BINUS University · 2024 – Present</small>
+                <p>Major in Data Science · GPA: 3.96 / 4.00</p>
+              </div>
+              <div>
+                <b>Science Major</b
+                ><small
+                  >Sedes Sapientiae Senior High School, Semarang · 2021 –
+                  2024</small
+                >
+                <p>Focus in Science &amp; Mathematics</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section class="stackband" aria-label="Tech stack">
+        <div class="mq">
+          <div class="trk">
+            <div>
+              <span class="lbl">Programming Languages -></span
+              ><span class="it">Python</span><i></i><span class="it">SQL</span
+              ><i></i><span class="it">Java</span><i></i
+              ><span class="it">R</span><i></i><span class="it">Dart</span
+              ><i></i><span class="it">JavaScript</span><i></i
+              ><span class="lbl">Tabular Machine Learning -></span
+              ><span class="it">Scikit-Learn</span><i></i
+              ><span class="it">XGBoost</span><i></i
+              ><span class="it">LightGBM</span><i></i
+              ><span class="it">Optuna</span><i></i
+              ><span class="it">Pandas</span><i></i><span class="it">NumPy</span
+              ><i></i><span class="it">DCS-LCA</span><i></i
+              ><span class="lbl">Computer Vision &amp; Deep Learning -></span
+              ><span class="it">PyTorch</span><i></i
+              ><span class="it">OpenCV</span><i></i><span class="it">YOLO</span
+              ><i></i><span class="it">Grounding DINO</span><i></i
+              ><span class="it">Fine-Tuning</span><i></i>
+            </div>
+            <div aria-hidden="true">
+              <span class="lbl">Programming Languages -></span
+              ><span class="it">Python</span><i></i><span class="it">SQL</span
+              ><i></i><span class="it">Java</span><i></i
+              ><span class="it">R</span><i></i><span class="it">Dart</span
+              ><i></i><span class="it">JavaScript</span><i></i
+              ><span class="lbl">Tabular Machine Learning -></span
+              ><span class="it">Scikit-Learn</span><i></i
+              ><span class="it">XGBoost</span><i></i
+              ><span class="it">LightGBM</span><i></i
+              ><span class="it">Optuna</span><i></i
+              ><span class="it">Pandas</span><i></i><span class="it">NumPy</span
+              ><i></i><span class="it">DCS-LCA</span><i></i
+              ><span class="lbl">Computer Vision &amp; Deep Learning -></span
+              ><span class="it">PyTorch</span><i></i
+              ><span class="it">OpenCV</span><i></i><span class="it">YOLO</span
+              ><i></i><span class="it">Grounding DINO</span><i></i
+              ><span class="it">Fine-Tuning</span><i></i>
+            </div>
+          </div>
+        </div>
+        <div class="mq rev">
+          <div class="trk">
+            <div>
+              <span class="lbl">Natural Language Processing -></span
+              ><span class="it">BERT</span><i></i><span class="it">RoBERTa</span
+              ><i></i><span class="it">Text Classification</span><i></i
+              ><span class="lbl">Data Engineering &amp; Orchestration -></span
+              ><span class="it">Apache Airflow</span><i></i
+              ><span class="it">dbt</span><i></i
+              ><span class="it">Medallion Architecture</span><i></i
+              ><span class="it">DBeaver</span><i></i
+              ><span class="lbl">DevOps, Infrastructure &amp; Cloud -></span
+              ><span class="it">Docker</span><i></i
+              ><span class="it">Firebase</span><i></i
+              ><span class="it">Supabase</span><i></i><span class="it">Git</span
+              ><i></i><span class="it">GitHub Actions</span><i></i
+              ><span class="it">AWS</span><i></i><span class="it">Vercel</span
+              ><i></i>
+            </div>
+            <div aria-hidden="true">
+              <span class="lbl">Natural Language Processing -></span
+              ><span class="it">BERT</span><i></i><span class="it">RoBERTa</span
+              ><i></i><span class="it">Text Classification</span><i></i
+              ><span class="lbl">Data Engineering &amp; Orchestration -></span
+              ><span class="it">Apache Airflow</span><i></i
+              ><span class="it">dbt</span><i></i
+              ><span class="it">Medallion Architecture</span><i></i
+              ><span class="it">DBeaver</span><i></i
+              ><span class="lbl">DevOps, Infrastructure &amp; Cloud -></span
+              ><span class="it">Docker</span><i></i
+              ><span class="it">Firebase</span><i></i
+              ><span class="it">Supabase</span><i></i><span class="it">Git</span
+              ><i></i><span class="it">GitHub Actions</span><i></i
+              ><span class="it">AWS</span><i></i><span class="it">Vercel</span
+              ><i></i>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section id="contact" class="contact">
+        <div class="w rv">
+          <h2 class="h2">Let's build something.</h2>
+          <a class="big" href="mailto:martinusalvinh@gmail.com"
+            >martinusalvinh@gmail.com</a
+          >
+          <div class="links">
+            <a class="btn" href="https://github.com/Alvin0628">GitHub</a
+            ><!-- <a class="btn" href="LINKEDIN_URL">LinkedIn</a> --><a
+              class="btn p"
+              href="assets/resume/Martinus_Alvin_Haryanto_Resume.pdf"
+              download
+              >Resume (PDF)</a
+            ><a
+              class="btn"
+              href="assets/resume/Martinus_Alvin_Haryanto_Resume.docx"
+              download
+              >Resume (Word)</a
+            >
+            <a class="btn p" href="https://www.linkedin.com/in/martinus-alvin-haryanto/">LinkedIn</a
+          </div>
+        </div>
+      </section>
+    </main>
+    <footer><div class="w">© 2026 Martinus Alvin Haryanto</div></footer>
+    <script src="assets/js/script.js"></script>
+  </body>
+</html>
