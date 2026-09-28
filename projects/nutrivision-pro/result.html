@@ -1,0 +1,56 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>NutriVision Pro · Result — Martinus Alvin Haryanto</title><meta name="description" content="Point your camera at a plate. Get instance-segmented food items and a full nutrition breakdown, logged straight to your daily diary.">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css"></head><body class="t-nutri">
+<header class="nav"><div class="w"><a class="logo" href="../../index.html">MAH</a><nav><a href="../../index.html#work">Work</a><a href="../../index.html#about">About</a><a href="../../index.html#contact">Contact</a></nav></div></header>
+<main><div class="w">
+<div class="crumb"><a href="../../index.html#work">Work</a> / NutriVision Pro · Product</div>
+<div class="tabs"><a href="index.html">Home</a><a href="technical.html">Technical</a><a href="result.html" class=on>Result</a></div>
+
+<section class="tw2"><span class="chip">Results</span>
+<h1><span class="h1w"><i style="--d:0">Two</i></span> <span class="h1w"><i style="--d:1">fine-tuning</i></span> <span class="h1w"><i style="--d:2">stages.</i></span> <span class="h1w"><i style="--d:3"><em>Real</em></i></span> <span class="h1w"><i style="--d:4">gains.</i></span></h1>
+<p class="sub">YOLO11l-Seg trained in two stages on the 14-class food dataset. Stage 1 is the initial fine-tune; Stage 2 continues training with an Optuna-tuned hyperparameter search. Numbers below are each stage's best checkpoint by mask mAP50-95.</p></section>
+
+<div class="bento">
+<div class="bc w4 mid rv"><div class="k">Mask mAP50-95</div><div class="n" data-n="0.386" data-d="3" data-p="" data-s="">0</div><p>+10.8% vs. Stage 1 (0.348)</p></div>
+<div class="bc w4 oc rv"><div class="k">Box mAP50-95</div><div class="n" data-n="0.419" data-d="3" data-p="" data-s="">0</div><p>+8.5% vs. Stage 1 (0.387)</p></div>
+<div class="bc w4 dp rv"><div class="k">Mask recall</div><div class="n" data-n="0.470" data-d="3" data-p="" data-s="">0</div><p>+11.4% vs. Stage 1 (0.422)</p></div>
+</div>
+
+<h2 class="sec">Stage 1 vs. Stage 2</h2>
+<p class="secs">Light bar: Stage 1 baseline (epoch 31/51). Dark bar: Stage 2, Optuna-tuned (epoch 46/68).</p>
+<div class="duel">
+<div class="dr rv"><b>Precision (box)</b><div class="bars"><div><div class="bar"><i style="--w:55.2%"></i></div><span>0.552</span></div><div><div class="bar"><i style="--w:54.9%"></i></div><span>0.549</span></div></div><div class="dl2">−0.5%</div></div>
+<div class="dr rv"><b>Recall (box)</b><div class="bars"><div><div class="bar"><i style="--w:43.7%"></i></div><span>0.437</span></div><div><div class="bar"><i style="--w:49.3%"></i></div><span>0.493</span></div></div><div class="dl2">+12.8%</div></div>
+<div class="dr rv"><b>mAP50 (box)</b><div class="bars"><div><div class="bar"><i style="--w:47.0%"></i></div><span>0.470</span></div><div><div class="bar"><i style="--w:50.4%"></i></div><span>0.504</span></div></div><div class="dl2">+7.2%</div></div>
+<div class="dr rv"><b>mAP50-95 (box)</b><div class="bars"><div><div class="bar"><i style="--w:38.7%"></i></div><span>0.387</span></div><div><div class="bar"><i style="--w:41.9%"></i></div><span>0.419</span></div></div><div class="dl2">+8.5%</div></div>
+<div class="dr rv"><b>Precision (mask)</b><div class="bars"><div><div class="bar"><i style="--w:52.5%"></i></div><span>0.525</span></div><div><div class="bar"><i style="--w:54.1%"></i></div><span>0.541</span></div></div><div class="dl2">+3.0%</div></div>
+<div class="dr rv"><b>Recall (mask)</b><div class="bars"><div><div class="bar"><i style="--w:42.2%"></i></div><span>0.422</span></div><div><div class="bar"><i style="--w:47.0%"></i></div><span>0.470</span></div></div><div class="dl2">+11.4%</div></div>
+<div class="dr rv"><b>mAP50 (mask)</b><div class="bars"><div><div class="bar"><i style="--w:44.0%"></i></div><span>0.440</span></div><div><div class="bar"><i style="--w:48.8%"></i></div><span>0.488</span></div></div><div class="dl2">+10.9%</div></div>
+<div class="dr rv"><b>mAP50-95 (mask)</b><div class="bars"><div><div class="bar"><i style="--w:34.8%"></i></div><span>0.348</span></div><div><div class="bar"><i style="--w:38.6%"></i></div><span>0.386</span></div></div><div class="dl2">+10.8%</div></div>
+</div>
+
+<div class="bento">
+<div class="bc w12 mid rv"><div class="k">Key takeaway</div><p class="big" style="font-size:1.35rem;font-family:'Space Grotesk';font-weight:600;letter-spacing:-.02em">Stage 2 barely moves precision but pushes recall up double digits on both box and mask. For a nutrition app, that trade is the right one — a missed item on the plate means missing its calories entirely, while a slightly imprecise mask still gets roughly logged.</p></div>
+<div class="bc w12 rv"><div class="k">Where it still struggles</div><p class="big">The Stage 2 confusion matrix shows meaningful background confusion on <b>pork</b>, <b>squid</b>, <b>shrimp</b> and <b>tofu</b> — items the model frequently misses rather than misclassifies — and the rarest classes in training (<b>noodles</b>, <b>sambal</b>, <b>beef</b>, all under 400 instances) are the ones most likely to be under-detected. More labeled examples for those classes is the clearest next lever, ahead of further hyperparameter tuning.</p></div>
+</div>
+
+<h2 class="sec">Evidence</h2><p class="secs">Click any plot to enlarge.</p>
+<div class="gal">
+<div class="bc rv"><img src="assets/plots/stage1-confusion-matrix.png" alt="Stage 1 normalized confusion matrix, 14 classes" loading="lazy"><p>Stage 1 confusion matrix (baseline)</p></div>
+<div class="bc rv"><img src="assets/plots/stage2-confusion-matrix.png" alt="Stage 2 normalized confusion matrix, 14 classes" loading="lazy"><p>Stage 2 confusion matrix (Optuna-tuned)</p></div>
+<div class="bc rv"><img src="assets/plots/dataset-class-distribution.jpg" alt="Training set instance count per food class" loading="lazy"><p>Dataset composition — instances per class</p></div>
+<div class="bc rv"><img src="assets/plots/stage2-training-curves.png" alt="Stage 2 training and validation loss/metric curves" loading="lazy"><p>Stage 2 training curves (Optuna-tuned)</p></div>
+</div>
+
+<h2 class="sec">In action</h2>
+<div class="gal">
+<div class="bc rv"><img src="assets/diary.png" alt="Diary view: 16 nutrients against the daily target" loading="lazy"><p>Diary: 16 nutrients vs. daily target</p></div>
+<div class="bc rv"><img src="assets/detection.png" alt="Multi-item plate segmentation with per-item results" loading="lazy"><p>Multi-item plate segmentation</p></div>
+</div>
+<div class="doc"><p>Inference runs on EC2 and the web app on Vercel: this is a live deployment, not a local demo.</p></div>
+
+<div class="pn2"><a href="technical.html"><small>Previous</small>← Technical</a><a href="index.html"><small>Next</small>Home →</a></div>
+</div></main><div class="lb"><img alt=""></div>
+<footer><div class="w">© 2026 Martinus Alvin Haryanto</div></footer><script src="script.js"></script></body></html>

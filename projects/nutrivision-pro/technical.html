@@ -1,0 +1,96 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>NutriVision Pro · Technical — Martinus Alvin Haryanto</title><meta name="description" content="Point your camera at a plate. Get instance-segmented food items and a full nutrition breakdown, logged straight to your daily diary.">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css"></head><body class="t-nutri">
+<header class="nav"><div class="w"><a class="logo" href="../../index.html">MAH</a><nav><a href="../../index.html#work">Work</a><a href="../../index.html#about">About</a><a href="../../index.html#contact">Contact</a></nav></div></header>
+<main><div class="w">
+<div class="crumb"><a href="../../index.html#work">Work</a> / NutriVision Pro · Product</div>
+<div class="tabs"><a href="index.html">Home</a><a href="technical.html" class=on>Technical</a><a href="result.html">Result</a></div>
+
+<section class="tw2"><span class="chip">Technical</span>
+<h1><span class="h1w"><i style="--d:0">How</i></span> <span class="h1w"><i style="--d:1">a</i></span> <span class="h1w"><i style="--d:2">photo</i></span> <span class="h1w"><i style="--d:3">becomes</i></span> <span class="h1w"><i style="--d:4">a</i></span> <span class="h1w"><i style="--d:5">diary</i></span> <span class="h1w"><i style="--d:6">entry.</i></span></h1>
+<p class="sub">Segment every item on the plate, reconcile the ambiguous ones, resolve nutrition per class, and let the user correct portion size before it's logged.</p></section>
+
+<div class="flow">
+<div class="bc rv"><h3>Segment</h3><p>Fine-tuned YOLO11-Seg detects and masks each food item on the plate.</p></div>
+<div class="bc mid rv"><h3>Refine</h3><p><code>vision_refine</code> reconciles broad or ambiguous class predictions.</p></div>
+<div class="bc rv"><h3>Resolve</h3><p>Each detected class resolves to a nutrition record.</p></div>
+<div class="bc dp rv"><h3>Log</h3><p>User corrects portion with a gram slider, then logs to the diary.</p></div>
+</div>
+
+<h2 class="sec">Try the actual interaction</h2>
+<p class="secs">This is the same gram-slider correction used in the real FoodCard component — it commits on release, not on every drag, a deliberate performance choice.</p>
+<div class="bento">
+<div class="bc w7 rv">
+<div class="sliderdemo">
+<div><div class="food">Grilled Chicken Breast</div><div style="color:var(--mute);font-size:.9rem;margin-top:4px">Detected portion, adjustable</div>
+<input id="gramSlider" type="range" min="20" max="400" value="100" step="5">
+<div class="gval"><span id="gramVal">100 g</span></div>
+</div>
+<div class="macrolist">
+<div><b id="kcalVal">165</b><span>kcal</span></div>
+<div><b id="protVal">31.0 g</b><span>protein</span></div>
+<div><b id="carbVal">0.0 g</b><span>carbs</span></div>
+<div><b id="fatVal">3.6 g</b><span>fat</span></div>
+</div>
+</div>
+</div>
+<div class="bc w5 rv"><div class="nlabel">
+<h4>Nutrition Facts</h4>
+<div class="row"><span>Serving size</span><span id="nlGram">100 g</span></div>
+<div class="row big"><span>Calories</span><span id="nlKcal">165</span></div>
+<div class="row"><span>Protein</span><span id="nlProt">31.0 g</span></div>
+<div class="row"><span>Carbohydrates</span><span id="nlCarb">0.0 g</span></div>
+<div class="row"><span>Fat</span><span id="nlFat">3.6 g</span></div>
+</div>
+<p style="margin-top:10px;font-size:.82rem;color:var(--mute)">Updates live from the slider — this is the actual FoodCard/nutrition pairing in the app.</p></div>
+</div>
+
+<h2 class="sec">System architecture</h2>
+<div class="vs">
+<div class="bc rv"><div class="k">Frontend</div><h3>Next.js</h3><p><code>/scan</code> upload → predict → per-item FoodCard → log.<br><code>/diary</code> 16-nutrient progress vs. target, date history.<br><code>/profile</code> user data → daily target.</p><p>Firebase-based auth with client-side route protection via <code>AuthProvider</code> / <code>ProtectedRoute</code>.</p></div>
+<div class="bc mid rv"><div class="k">Backend</div><h3>FastAPI</h3><p>Modules for inference, nutrition, diary, users, feedback, and vision refinement, with Redis-backed caching.</p><p>Tokens are verified independently on every endpoint — the client-side route guard is a UX layer, not the security boundary.</p></div>
+</div>
+
+<div class="bento"><div class="bc w12 dp rv"><div class="k">Deployment &amp; CI</div><p class="big" style="font-size:1.2rem">The Dockerized API runs on AWS EC2 and pulls the model artifact from S3 at container startup instead of baking it into the image. The web app is on Vercel, with separate GitHub Actions workflows for API and web.</p></div></div>
+
+<div class="bento">
+<div class="bc w6 rv"><div class="k">Stack</div><h3>End to end</h3><div class="pills"><span>Next.js</span><span>FastAPI</span><span>YOLO11-Seg</span><span>Firebase</span><span>Redis</span><span>Docker</span><span>AWS EC2</span><span>S3</span><span>Vercel</span><span>GitHub Actions</span></div></div>
+<div class="bc w6 rv"><div class="k">Engineering discipline</div><div class="co" style="margin:8px 0 0">Scope deferred for the MVP — server-side route middleware, tap-to-mark UI, a calendar component — is documented in the repo instead of left ambiguous.</div></div>
+</div>
+
+<h2 class="sec">Dataset</h2>
+<div class="bento">
+<div class="bc w6 rv"><div class="k">14 classes, one training run</div><h3>What the model sees</h3><p>Instance counts from the training set (Stage 2). Bubble size roughly tracks class frequency — <b>vegetable</b> and <b>fruit</b> dominate, while <b>noodles</b>, <b>sambal</b> and <b>beef</b> are comparatively rare.</p>
+<div class="classgrid">
+<span><i></i>vegetable <b>4055</b></span><span><i></i>fruit <b>2500</b></span><span><i></i>pork <b>1544</b></span><span><i></i>rice <b>1037</b></span>
+<span><i></i>chicken <b>854</b></span><span><i></i>egg <b>711</b></span><span><i></i>squid <b>634</b></span><span><i></i>shrimp <b>487</b></span>
+<span><i></i>tempeh <b>484</b></span><span><i></i>tofu <b>399</b></span><span><i></i>beef <b>388</b></span><span><i></i>sambal <b>155</b></span>
+<span><i></i>fish <b>153</b></span><span><i></i>noodles <b>137</b></span>
+</div></div>
+<div class="bc w6 mid rv"><div class="k">Why these classes</div><h3>Built for a real plate, not a benchmark</h3><p>Most public food-recognition datasets skew Western. Tofu, tempeh, sambal and squid are everyday staples here that generic models miss entirely — the class list was chosen to actually work on the food people around here eat.</p></div>
+</div>
+
+<h2 class="sec">Coming Soon — Continuous Training</h2>
+<p class="secs">The next phase will introduce a continuous training pipeline that allows the model to improve from real user feedback over time.</p>
+
+<div class="bento">
+<div class="bc rv"><div class="k">Feedback loop</div><h3>User Feedback as Training Data</h3><p>User-uploaded images become additional training data through two feedback scenarios.</p></div>
+<div class="bc mid rv"><div class="k">Scenario 1</div><h3>False negatives</h3><p>Users identify food that was missed by the model, with SAM2-assisted auto-segmentation helping generate accurate segmentation labels.</p></div>
+<div class="bc rv"><div class="k">Scenario 2</div><h3>False positives</h3><p>Users can remove incorrect detections, providing feedback that can be converted into valid training labels.</p></div>
+</div>
+
+<div class="bento">
+<div class="bc w6 oc rv"><div class="k">Data</div><h3>Dataset Expansion</h3><p>Newly validated labels from user feedback will be combined with the existing base dataset stored in S3 to create an updated training dataset.</p></div>
+<div class="bc w6 rv"><div class="k">Trigger</div><h3>Continuous Training</h3><p>When enough new feedback has accumulated and the configured threshold is reached, GitHub Actions will trigger a dedicated training container.</p></div>
+<div class="bc w6 rv"><div class="k">Infrastructure</div><h3>Isolated Training Infrastructure</h3><p>Training will run in a separate, on-demand container, independent from the production container currently serving the API and Redis, so model training does not interfere with inference services.</p></div>
+<div class="bc w6 mid rv"><div class="k">Release</div><h3>Automated Model Improvement</h3><p>The newly trained model will go through the continuous training workflow before being introduced back into the production inference system.</p></div>
+</div>
+
+<div class="bento"><div class="bc w12 dp rv"><div class="k">Goal</div><p class="big" style="margin-top:10px">Build a self-improving ML system where every user upload can feed back into the model, so the food segmentation model continuously improves.</p>
+<div class="pills"><span>User upload</span><span class="ar">→</span><span>Feedback</span><span class="ar">→</span><span>SAM2-assisted labeling</span><span class="ar">→</span><span>Dataset expansion</span><span class="ar">→</span><span>Threshold-based retraining</span><span class="ar">→</span><span>Updated model</span></div></div></div>
+
+<div class="pn2"><a href="index.html"><small>Previous</small>← Home</a><a href="result.html"><small>Next</small>Result →</a></div>
+</div></main>
+<footer><div class="w">© 2026 Martinus Alvin Haryanto</div></footer><script src="script.js"></script></body></html>

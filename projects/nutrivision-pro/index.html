@@ -1,0 +1,66 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>NutriVision Pro · Home — Martinus Alvin Haryanto</title><meta name="description" content="Point your camera at a plate. Get instance-segmented food items and a full nutrition breakdown, logged straight to your daily diary.">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css"></head><body class="t-nutri">
+<header class="nav"><div class="w"><a class="logo" href="../../index.html">MAH</a><nav><a href="../../index.html#work">Work</a><a href="../../index.html#about">About</a><a href="../../index.html#contact">Contact</a></nav></div></header>
+<main><div class="w">
+<div class="crumb"><a href="../../index.html#work">Work</a> / NutriVision Pro · Product</div>
+<div class="tabs"><a href="index.html" class=on>Home</a><a href="technical.html">Technical</a><a href="result.html">Result</a></div>
+
+<section class="hero2">
+<div><span class="chip">Product · Deployed on AWS + Vercel</span>
+<h1><span class="h1w"><i style="--d:0">See</i></span> <span class="h1w"><i style="--d:1">your</i></span> <span class="h1w"><i style="--d:2">plate.</i></span> <span class="h1w"><i style="--d:3"><em>Know</em></i></span> <span class="h1w"><i style="--d:4">your</i></span> <span class="h1w"><i style="--d:5">macros.</i></span></h1>
+<p class="sub">Point your camera at a plate. A fine-tuned YOLO11-Seg model segments each food item and returns a full nutrition breakdown you can adjust and log straight to your daily diary.</p>
+<div class="cta"><a class="btn p" href="https://nutrivision-pro-ten.vercel.app/" rel="noopener">View live app</a><a class="btn" href="https://github.com/Alvin0628/NUTRIVISION_PRO" rel="noopener">View repo</a></div></div>
+
+<div class="viz"><svg id="scan" viewBox="0 0 400 320" role="img" aria-label="Animated illustration of food segmentation on a plate">
+<circle cx="200" cy="160" r="140" fill="#183a0c"/><circle cx="200" cy="160" r="140" fill="none" stroke="#EAFFD0" stroke-opacity=".15" stroke-width="1.5"/>
+</svg>
+<div id="scanOut" class="out" style="border:0;padding-top:0;justify-content:flex-start"><span></span></div>
+<div class="lg"><span>Live detection preview — actual classes from the trained model</span></div>
+<small>Illustrative animation reproducing real app behavior, not a live camera feed.</small></div>
+</section>
+
+<div class="bento">
+<div class="bc w3 rv"><div class="k">Vision model</div><div class="n" style="font-size:1.9rem">YOLO11-Seg</div><p>Fine-tuned on 14 food classes, incl. everyday Indonesian dishes</p></div>
+<div class="bc w3 mid rv"><div class="k">Nutrients tracked</div><div class="n" data-n="16" data-d="" data-p="" data-s="">0</div><p>Diary progress vs. a personalized daily target</p></div>
+<div class="bc w3 oc rv"><div class="k">Mask mAP50-95</div><div class="n" data-n="0.386" data-d="3" data-p="" data-s="">0</div><p>Best checkpoint, Stage 2 (Optuna-tuned)</p></div>
+<div class="bc w3 rv"><div class="k">Deployed on</div><div class="n" style="font-size:1.6rem">AWS EC2 + Vercel</div><p>Live inference, not a local demo — <a href="https://github.com/Alvin0628/NUTRIVISION_PRO"><b>view repo →</b></a></p></div>
+</div>
+
+<div class="mq2" aria-hidden="true"><div>
+<span class="f">beef</span><span>•</span><span class="f">chicken</span><span>•</span><span class="f">egg</span><span>•</span><span class="f">fish</span><span>•</span><span class="f">fruit</span><span>•</span><span class="f">noodles</span><span>•</span><span class="f">pork</span><span>•</span><span class="f">rice</span><span>•</span><span class="f">sambal</span><span>•</span><span class="f">shrimp</span><span>•</span><span class="f">squid</span><span>•</span><span class="f">tempeh</span><span>•</span><span class="f">tofu</span><span>•</span><span class="f">vegetable</span><span>•</span>
+<span class="f">beef</span><span>•</span><span class="f">chicken</span><span>•</span><span class="f">egg</span><span>•</span><span class="f">fish</span><span>•</span><span class="f">fruit</span><span>•</span><span class="f">noodles</span><span>•</span><span class="f">pork</span><span>•</span><span class="f">rice</span><span>•</span><span class="f">sambal</span><span>•</span><span class="f">shrimp</span><span>•</span><span class="f">squid</span><span>•</span><span class="f">tempeh</span><span>•</span><span class="f">tofu</span><span>•</span><span class="f">vegetable</span><span>•</span>
+</div></div>
+
+<h2 class="sec">Overview</h2>
+<div class="bento">
+<div class="bc w8 rv"><p class="big">NutriVision Pro is a food-scanning app: upload a photo, and a fine-tuned YOLO11-Seg model segments each food item on the plate, estimates portion size, and returns a per-item nutrition card the user can adjust with a gram slider before logging. Logged meals roll up into a daily diary tracking 16 nutrients against a personalized target derived from the user's profile.</p></div>
+<div class="bc w4 dp rv"><div class="k">Trained on</div><div class="n" data-n="14" data-d="" data-p="" data-s="">0</div><p>food classes — including home-cooking staples like sambal, tempeh, tofu and squid, not just generic Western food datasets.</p></div>
+<div class="bc w6 rv"><div class="k">From photo to diary</div><h3>What happens after you tap Scan</h3><p>Segment each item → reconcile ambiguous classes → resolve nutrition per class → correct portion with a gram slider → log to the daily diary.</p></div>
+<div class="bc w6 mid rv"><div class="k">Fully deployed</div><h3>A real product, not a demo</h3><p>FastAPI backend on AWS EC2 with the model pulled from S3 at startup, a Next.js frontend on Vercel, Firebase for auth, and Redis for caching — serving real inference traffic.</p></div>
+</div>
+
+<h2 class="sec">The diary, in one glance</h2>
+<div class="bento">
+<div class="bc w7 rv"><div class="k">Example day</div><h3>16 nutrients, one target</h3><p>Every logged meal rolls up into the day's progress. Protein, carbs and fat are shown here — the real diary tracks 16 nutrients in total against a target derived from the user's profile.</p>
+<div class="rings">
+<div class="ringw"><svg viewBox="0 0 80 80"><circle class="bgc" cx="40" cy="40" r="35"></circle><circle class="fgc" cx="40" cy="40" r="35" style="--off:83.6"></circle></svg><span>Protein 62%</span></div>
+<div class="ringw"><svg viewBox="0 0 80 80"><circle class="bgc" cx="40" cy="40" r="35"></circle><circle class="fgc" cx="40" cy="40" r="35" style="--off:132"></circle></svg><span>Carbs 40%</span></div>
+<div class="ringw"><svg viewBox="0 0 80 80"><circle class="bgc" cx="40" cy="40" r="35"></circle><circle class="fgc" cx="40" cy="40" r="35" style="--off:99"></circle></svg><span>Fat 55%</span></div>
+</div></div>
+<div class="bc w5 dp rv"><div class="nlabel">
+<h4>Nutrition Facts</h4>
+<div class="row big"><span>Calories</span><span>612</span></div>
+<div class="row"><span>Protein</span><span>38 g</span></div>
+<div class="row"><span>Carbohydrates</span><span>64 g</span></div>
+<div class="row"><span>Fat</span><span>19 g</span></div>
+<div class="row"><span>Fiber</span><span>7 g</span></div>
+</div>
+<p style="margin-top:12px;font-size:.85rem;color:#EAFFD0">Example nutrition card generated from a single logged plate.</p></div>
+</div>
+
+<div class="pn2"><a href="result.html"><small>Previous</small>← Result</a><a href="technical.html"><small>Next</small>Technical →</a></div>
+</div></main>
+<footer><div class="w">© 2026 Martinus Alvin Haryanto</div></footer><script src="script.js"></script></body></html>

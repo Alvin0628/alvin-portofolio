@@ -1,0 +1,109 @@
+/* ===== NutriVision Pro — case study theme ===================================
+   Lime Green #B0E454 · Forest Green #224F10 · Soft Ivory #EAFFD0 · Jet Black #0D0D0D
+   Self-contained: base system + project-specific components. ============== */
+.t-nutri{--bg:#EAFFD0;--ink:#0D0D0D;--mute:color-mix(in srgb,#0D0D0D 66%,#EAFFD0);--acc:#B0E454;--deep:#224F10;--alt:#224F10;--btn:#0D0D0D;--btnt:#EAFFD0;--card:#F8FFEC;--sh:0 1px 0 rgba(13,13,13,.05),0 22px 44px -28px rgba(13,13,13,.35)}
+:root{--line:color-mix(in srgb,var(--ink) 16%,transparent);--paper:color-mix(in srgb,var(--ink) 5%,var(--bg))}
+*{box-sizing:border-box;margin:0}html{scroll-behavior:smooth}
+body{font:400 17px/1.65 Inter,system-ui,sans-serif;background:var(--bg);color:var(--ink);-webkit-font-smoothing:antialiased}
+h1,h2,h3{font-family:"Space Grotesk",Inter,sans-serif;font-weight:700;letter-spacing:-.035em;line-height:1.02}
+a{color:inherit}.w{max-width:1240px;margin:0 auto;padding:0 32px}
+header.nav{position:fixed;inset:0 0 auto;z-index:20;transition:.3s}header.nav.s{background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+.nav .w{display:flex;align-items:center;justify-content:space-between;height:72px}
+.logo{font:700 1.15rem "Space Grotesk";text-decoration:none;letter-spacing:-.02em}
+.nav nav{display:flex;gap:34px;font-size:.95rem;font-weight:500;align-items:center}.nav nav a{text-decoration:none;color:var(--mute);transition:.2s}.nav nav a:hover{color:var(--ink)}
+.rv{opacity:0;transform:translateY(24px);transition:opacity .8s,transform .8s cubic-bezier(.2,.7,.2,1)}.rv.in{opacity:1;transform:none}
+.crumb{padding:104px 0 0;font-size:.95rem;color:var(--mute)}.crumb a{text-decoration:none}
+.tabs{display:flex;gap:6px;margin-top:24px;border-bottom:1px solid var(--line);position:sticky;top:72px;z-index:8;background:color-mix(in srgb,var(--bg) 90%,transparent);backdrop-filter:blur(10px)}
+.tabs a{padding:12px 22px;text-decoration:none;color:var(--mute);font-weight:600;border-bottom:3px solid transparent;margin-bottom:-1px}.tabs a.on{color:var(--ink);border-color:var(--deep)}
+.chip{display:inline-flex;gap:8px;align-items:center;font:600 .8rem ui-monospace,Menlo,monospace;letter-spacing:.07em;text-transform:uppercase;border:1.5px solid var(--ink);border-radius:99px;padding:6px 14px;margin-bottom:22px}
+.chip:before{content:"";width:7px;height:7px;border-radius:50%;background:var(--deep);animation:pl 1.6s infinite}@keyframes pl{50%{transform:scale(1.9);opacity:.3}}
+.h1w{display:inline-block;vertical-align:top;overflow:hidden;padding-bottom:.06em}.h1w i{display:inline-block;font-style:normal;transform:translateY(105%);animation:up .9s cubic-bezier(.2,.8,.2,1) forwards;animation-delay:calc(var(--d)*80ms)}
+@keyframes up{to{transform:none}}
+.hero2{display:grid;grid-template-columns:1.05fr .95fr;gap:48px;align-items:center;padding:6vh 0 4vh}
+.hero2 h1{font-size:clamp(2.6rem,6.2vw,5.6rem);line-height:.96;letter-spacing:-.045em}.hero2 h1 em{font-style:normal;color:var(--deep)}
+.hero2 .sub{margin-top:26px;font-size:1.2rem;color:var(--mute);max-width:52ch}
+.tw2{padding:12vh 0 4vh}.tw2 h1{font-size:clamp(2.6rem,6vw,5.4rem)}.tw2 .sub{margin-top:22px;font-size:1.2rem;color:var(--mute);max-width:56ch}
+.cta{margin-top:30px;display:flex;gap:14px;flex-wrap:wrap}
+.btn{padding:12px 24px;border-radius:99px;text-decoration:none;border:1.5px solid var(--btn);font-weight:600;transition:.25s}.btn.p{background:var(--btn);color:var(--btnt)}.btn:hover{background:var(--deep);border-color:var(--deep);color:var(--acc)}
+.sec{font-size:clamp(2rem,4vw,3.4rem);margin:9vh 0 4px}.secs{color:var(--mute);max-width:60ch;margin-bottom:8px}
+.bento{display:grid;grid-template-columns:repeat(12,1fr);gap:18px;margin:26px 0 8px}
+.bc{grid-column:span 4;background:var(--card);border-radius:24px;padding:28px;box-shadow:var(--sh);border:1px solid rgba(13,13,13,.07);transition:transform .35s,box-shadow .35s;position:relative;overflow:hidden}
+.bc:hover{transform:translateY(-6px)}.bc.w3{grid-column:span 3}.bc.w5{grid-column:span 5}.bc.w6{grid-column:span 6}.bc.w7{grid-column:span 7}.bc.w8{grid-column:span 8}.bc.w12{grid-column:span 12}
+.bc.mid{background:var(--ink);color:var(--acc);border:0}.bc.mid p,.bc.mid li{color:color-mix(in srgb,var(--acc) 55%,#fff)}.bc.mid h3{color:var(--bg)}
+.bc.oc{background:var(--acc);color:var(--ink);border:0}.bc.oc p{color:color-mix(in srgb,var(--ink) 80%,transparent)}
+.bc.dp{background:var(--deep);color:var(--bg);border:0}.bc.dp p{color:color-mix(in srgb,var(--bg) 80%,transparent)}
+.bc .k{font:600 .75rem ui-monospace,Menlo,monospace;letter-spacing:.08em;text-transform:uppercase;opacity:.65}
+.bc .n{font:700 clamp(2.2rem,4.6vw,4rem)/1 "Space Grotesk";letter-spacing:-.05em;margin:12px 0 8px}
+.bc h3{font-size:1.55rem;margin:10px 0 10px}.bc p{margin:0 0 .8em;color:var(--mute);font-size:.97rem}.bc p:last-child{margin:0}
+.bc .big{font-size:1.15rem;line-height:1.55}
+.doc{padding:4vh 0 2vh;max-width:780px}.doc p{margin-bottom:1em;color:color-mix(in srgb,var(--ink) 88%,var(--bg))}
+.co{border-left:3px solid var(--deep);padding:6px 0 6px 22px;margin:28px 0;font:600 1.25rem/1.4 "Space Grotesk";letter-spacing:-.02em}
+.pills{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}.pills span{border:1.5px solid var(--ink);border-radius:99px;padding:5px 14px;font-weight:600;font-size:.9rem}
+.bar{height:8px;border-radius:8px;background:rgba(13,13,13,.12);overflow:hidden;margin:6px 0 4px}.bar i{display:block;height:100%;width:0;background:var(--deep);border-radius:8px;transition:width 1.3s cubic-bezier(.2,.8,.2,1)}.in .bar i{width:var(--w)}
+.mid .bar{background:rgba(234,255,208,.18)}.mid .bar i{background:var(--acc)}
+.oc .bar{background:rgba(13,13,13,.18)}.oc .bar i{background:var(--ink)}
+.flow{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;counter-reset:s;margin:26px 0}.flow .bc{padding:24px}
+.flow .bc:before{counter-increment:s;content:"0" counter(s);display:block;font:700 3rem/1 "Space Grotesk";color:var(--deep);margin-bottom:14px}.flow .bc.mid:before{color:var(--acc)}
+.vs{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.duel{display:grid;gap:14px;margin-top:22px}.dr{background:var(--card);border-radius:20px;padding:20px 26px;box-shadow:var(--sh);display:grid;grid-template-columns:170px 1fr 76px;gap:24px;align-items:center;border:1px solid rgba(13,13,13,.07)}
+.dr b{font:700 1.05rem "Space Grotesk"}.dr .bars>div{display:grid;grid-template-columns:1fr 56px;gap:12px;align-items:center;font:600 .82rem ui-monospace,Menlo,monospace}
+.dr .bar{height:11px;margin:5px 0}.dr .bar i{background:rgba(13,13,13,.25)}.dr .bars>div+div .bar i{background:var(--deep)}
+.dl2{font:700 .95rem "Space Grotesk";background:var(--acc);color:var(--ink);border-radius:99px;padding:6px 0;text-align:center}
+.gal{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:22px}.gal .bc{padding:14px;cursor:zoom-in}.gal img{width:100%;display:block;border-radius:14px;background:#fff}.gal p{padding:12px 8px 4px;margin:0;font-weight:600}
+.lb{position:fixed;inset:0;z-index:99;background:rgba(13,13,13,.88);display:none;place-items:center;padding:30px;cursor:zoom-out}.lb.on{display:grid}.lb img{max-width:100%;max-height:100%;border-radius:12px;background:#fff}
+.ph-box{border:1.5px dashed var(--mute);border-radius:14px;padding:26px;color:var(--mute);margin:24px 0;font-size:.92rem}
+.mq2{overflow:hidden;white-space:nowrap;margin:7vh 0;border-block:1.5px solid var(--ink);padding:16px 0}.mq2 div{display:inline-flex;gap:40px;animation:mq 40s linear infinite}
+.mq2 span{font:700 clamp(1.6rem,4.2vw,3.2rem)/1 "Space Grotesk";text-transform:uppercase;color:transparent;-webkit-text-stroke:1.5px var(--ink)}.mq2 span.f{color:var(--deep);-webkit-text-stroke:0}
+@keyframes mq{to{transform:translateX(-50%)}}
+.pn2{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin:10vh 0 6vh}.pn2 a{border-radius:24px;padding:30px;text-decoration:none;background:var(--ink);color:var(--acc);font:700 1.7rem "Space Grotesk";letter-spacing:-.03em;transition:.3s}.pn2 a:hover{background:var(--deep);color:var(--bg)}.pn2 small{display:block;font:500 .8rem Inter;opacity:.7;margin-bottom:6px;color:var(--bg)}
+footer{padding:36px 0;border-top:1px solid var(--line);color:var(--mute);font-size:.9rem}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.rv{opacity:1;transform:none}}
+
+/* ---- Hero scan visual --------------------------------------------------- */
+.viz{background:var(--ink);color:var(--bg);border-radius:28px;padding:22px;box-shadow:var(--sh)}.viz svg{width:100%;display:block}
+.viz .lg{display:flex;gap:16px;flex-wrap:wrap;font-size:.8rem;margin-top:10px;opacity:.9}
+.viz .out{display:flex;justify-content:space-between;gap:10px;margin-top:12px;padding-top:12px;border-top:1px solid rgba(234,255,208,.2);font:600 .85rem ui-monospace,Menlo,monospace}.viz .out b{color:var(--acc)}
+.viz small{display:block;opacity:.55;margin-top:6px;font-size:.72rem}
+.detbox{fill:none;stroke:var(--acc);stroke-width:2;rx:8;opacity:0}
+.detlbl{font:600 11px ui-monospace,Menlo,monospace;fill:var(--ink)}
+.detlblbg{fill:var(--acc);opacity:0}
+
+/* ---- Nutrition-facts style panel ----------------------------------------- */
+.nlabel{background:#fff;color:#0D0D0D;border:3px solid #0D0D0D;border-radius:6px;padding:16px 20px;font-family:Inter,sans-serif}
+.nlabel h4{font:900 1.4rem/1 "Space Grotesk";border-bottom:8px solid #0D0D0D;padding-bottom:8px;margin-bottom:8px;letter-spacing:-.02em}
+.nlabel .row{display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid #0D0D0D;font-size:.92rem}
+.nlabel .row.big{font-weight:800;font-size:1.05rem;border-bottom-width:4px}
+.nlabel .row:last-child{border-bottom:none}
+
+/* ---- Macro rings ----------------------------------------------------------- */
+.rings{display:flex;gap:20px;flex-wrap:wrap;justify-content:space-around;margin-top:10px}
+.ringw{display:flex;flex-direction:column;align-items:center;gap:8px}
+.ringw svg{width:88px;height:88px;transform:rotate(-90deg)}
+.ringw circle{fill:none;stroke-width:10}
+.ringw .bgc{stroke:rgba(13,13,13,.1)}.mid .ringw .bgc{stroke:rgba(234,255,208,.15)}
+.ringw .fgc{stroke:var(--deep);stroke-linecap:round;stroke-dasharray:220;stroke-dashoffset:220;transition:stroke-dashoffset 1.4s cubic-bezier(.2,.8,.2,1)}
+.mid .ringw .fgc{stroke:var(--acc)}
+.in .ringw .fgc{stroke-dashoffset:var(--off)}
+.ringw span{font:600 .85rem Inter}
+
+/* ---- Interactive gram-slider demo ---------------------------------------- */
+.sliderdemo{display:grid;grid-template-columns:1fr 1.3fr;gap:32px;align-items:center}
+.sliderdemo .food{font:700 1.3rem "Space Grotesk"}
+.sliderdemo input[type=range]{width:100%;margin:18px 0 10px;accent-color:var(--acc)}
+.sliderdemo .gval{font:700 2.4rem "Space Grotesk";color:var(--deep)}
+.macrolist{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px}
+.macrolist div{background:rgba(13,13,13,.05);border-radius:12px;padding:10px 14px}
+.macrolist b{display:block;font:700 1.3rem "Space Grotesk"}
+.macrolist span{font-size:.78rem;color:var(--mute);text-transform:uppercase;letter-spacing:.05em}
+
+/* ---- Dataset class chips --------------------------------------------------- */
+.classgrid{display:flex;flex-wrap:wrap;gap:10px;margin-top:16px}
+.classgrid span{display:inline-flex;align-items:center;gap:8px;border:1.5px solid var(--ink);border-radius:99px;padding:7px 14px 7px 8px;font-weight:600;font-size:.88rem;background:var(--card)}
+.classgrid i{width:8px;height:8px;border-radius:50%;background:var(--deep);flex:none}
+.classgrid b{font:700 .8rem ui-monospace,Menlo,monospace;opacity:.6;margin-left:2px}
+
+/* ---- Coming-soon pipeline pills (goal card) ------------------------------- */
+.bc.dp .pills span{border-color:var(--bg)}
+.pills .ar{border:0;padding:5px 0;opacity:.6}
+
+@media(max-width:900px){.hero2,.vs,.gal,.pn2,.sliderdemo{grid-template-columns:1fr}.bc,.bc.w6,.bc.w8,.bc.w3,.bc.w5,.bc.w7{grid-column:span 12}.flow{grid-template-columns:1fr 1fr}.dr{grid-template-columns:1fr}}
