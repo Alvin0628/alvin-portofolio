@@ -20,5 +20,14 @@ s.style.left=(e.clientX-b.left-size/2)+'px';s.style.top=(e.clientY-b.top-size/2)
 s.style.setProperty('--dx',(Math.random()*28-14)+'px');
 hero.appendChild(s);setTimeout(()=>s.remove(),950)});
 hero.addEventListener('pointerleave',()=>hero.classList.remove('glow-on'));
-hero.addEventListener('pointerenter',()=>hero.classList.add('glow-on'))}})();
+hero.addEventListener('pointerenter',()=>hero.classList.add('glow-on'))}
+const st=q('.statement'),txt=q('#statementText');
+if(st&&txt){const once=new IntersectionObserver(e=>{if(e[0].isIntersecting){st.classList.add('in');once.disconnect()}},{threshold:.4});
+red?st.classList.add('in'):once.observe(st);
+const mq=matchMedia('(max-width:800px)');
+function fitStatement(){if(mq.matches){txt.style.fontSize='';return}
+const target=txt.clientWidth;txt.style.fontSize='100px';const w=txt.scrollWidth||1;
+const size=Math.max(30,Math.min(100*(target/w),190));txt.style.fontSize=size+'px'}
+fitStatement();let rt;addEventListener('resize',()=>{clearTimeout(rt);rt=setTimeout(fitStatement,120)});
+if(document.fonts&&document.fonts.ready)document.fonts.ready.then(fitStatement)}})();
 
