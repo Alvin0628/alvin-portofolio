@@ -59,6 +59,48 @@
   --btnt: #adced9;
 }
 
+.t-yt {
+  --bg: #ffffff;
+  --ink: #000000;
+  --muted: color-mix(in srgb, #000000 65%, #ffffff);
+  --acc: #e61e32;
+  --alt: #b3b3b3;
+  --btn: #e61e32;
+  --btnt: #ffffff;
+}
+
+/* YouTube card — white left panel, red right panel */
+.card.t-yt .vis {
+  background: #ffffff;
+  color: #000000;
+}
+
+.card.t-yt .info {
+  background: #e61e32;
+  color: #ffffff;
+}
+
+.card.t-yt .info p {
+  color: #ffffff;
+}
+
+.card.t-yt .info .go {
+  color: #ffffff;
+}
+
+.card.t-yt .info .go span {
+  color: #ffffff;
+}
+
+.card.t-yt .vis .badge {
+  color: #000000 !important;
+  border-color: #000000 !important;
+}
+
+.card.t-yt .vis small {
+  color: #555555;
+}
+
 :root {
   --line: color-mix(in srgb, var(--ink) 18%, transparent);
   --paper: color-mix(in srgb, var(--ink) 6%, var(--bg));
