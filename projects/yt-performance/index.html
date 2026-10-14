@@ -1,0 +1,233 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>
+      YouTube Performance Predictor · Home — Martinus Alvin Haryanto
+    </title>
+    <meta
+      name="description"
+      content="Predicts how a YouTube video will perform relative to its own channel's recent average, from the thumbnail and title alone, before publishing."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body class="t-yt">
+    <header class="nav">
+      <div class="w">
+        <a class="logo" href="../../index.html">MAH</a>
+        <nav>
+          <a href="../../index.html#work">Work</a
+          ><a href="../../index.html#about">About</a
+          ><a href="../../index.html#contact">Contact</a>
+        </nav>
+      </div>
+    </header>
+    <main>
+      <div class="w">
+        <div class="crumb">
+          <a href="../../index.html#work">Work</a> / YouTube Performance
+          Predictor · Applied ML
+        </div>
+        <div class="tabs dcs-tabs">
+          <a href="index.html" class="on">Home</a
+          ><a href="technical.html">Technical</a
+          ><a href="result.html">Result</a>
+        </div>
+
+        <section class="hero2">
+          <div>
+            <span class="chip">Applied ML · Live service</span>
+            <h1>
+              <span class="h1w"><i style="--d: 0">Predict</i></span>
+              <span class="h1w"><i style="--d: 1">the</i></span>
+              <span class="h1w"><i style="--d: 2">performance</i></span>
+              <span class="h1w"><i style="--d: 3">before</i></span>
+              <span class="h1w"><i style="--d: 4">you</i></span>
+              <span class="h1w"
+                ><i style="--d: 5"><em>publish.</em></i></span
+              >
+            </h1>
+            <p class="sub">
+              From a thumbnail and a title alone, a token-level early-fusion
+              model scores how a YouTube video will perform relative to its own
+              channel's recent average.
+            </p>
+            <div class="cta">
+              <a
+                class="btn p"
+                href="https://stefano-budi.vercel.app/projects/ytpp_dashboard/home.html"
+                rel="noopener"
+                >View Live App</a
+              ><a
+                class="btn"
+                href="https://github.com/Alvin0628/yt-performance-predictor/tree/feat/auto-retrain"
+                rel="noopener"
+                >View repo</a
+              >
+            </div>
+          </div>
+
+          <div class="viz">
+            <svg
+              id="fuse"
+              viewBox="0 0 400 320"
+              role="img"
+              aria-label="Animation: image, title and tabular tokens fuse into one performance score"
+            ></svg>
+            <div class="lg">
+              <span>Image tokens</span><span class="g">Title tokens</span
+              ><span class="e">Fusion + score</span>
+            </div>
+            <div id="pick" class="out"><span></span></div>
+            <small
+              >Illustrative animation of the model's data flow, not real
+              predictions.</small
+            >
+          </div>
+        </section>
+
+        <div class="bento">
+          <div class="bc w3 rv">
+            <div class="k">Labelled videos</div>
+            <div class="n" data-n="11285">0</div>
+            <p>from 135 channels, split chronologically 80/10/10</p>
+          </div>
+          <div class="bc w3 mid rv">
+            <div class="k">Test Spearman</div>
+            <div class="n" data-n="0.431" data-d="3">0</div>
+            <p>5-member ensemble on a temporal split, no subscriber features</p>
+          </div>
+          <div class="bc w3 oc rv">
+            <div class="k">Ensemble members</div>
+            <div class="n" data-n="5">0</div>
+            <p>seeds 100–104, about 3.0M parameters each</p>
+          </div>
+          <div class="bc w3 rv">
+            <div class="k">Status</div>
+            <div class="n" style="font-size: 2rem">Deployed</div>
+            <p>
+              Live and rate-limited per IP —
+              <a href="https://yt-performance-predictor.vercel.app/"
+                ><b>open the demo →</b></a
+              >
+            </p>
+          </div>
+        </div>
+
+        <div class="mq2" aria-hidden="true">
+          <div>
+            <span class="f">Thumbnail</span><span>•</span
+            ><span class="f">Title</span><span>•</span
+            ><span class="f">Tabular</span><span>•</span
+            ><span class="f">CLIP</span><span>•</span
+            ><span class="f">Cross-attention</span><span>•</span
+            ><span class="f">Ensemble</span><span>•</span
+            ><span class="f">Airflow</span><span>•</span
+            ><span class="f">Drift</span><span>•</span>
+            <span class="f">Thumbnail</span><span>•</span
+            ><span class="f">Title</span><span>•</span
+            ><span class="f">Tabular</span><span>•</span
+            ><span class="f">CLIP</span><span>•</span
+            ><span class="f">Cross-attention</span><span>•</span
+            ><span class="f">Ensemble</span><span>•</span
+            ><span class="f">Airflow</span><span>•</span
+            ><span class="f">Drift</span><span>•</span>
+          </div>
+        </div>
+
+        <h2 class="sec">Overview</h2>
+        <div class="bento">
+          <div class="bc w8 rv">
+            <p class="big">
+              Predicting a video's views in absolute terms mostly measures how
+              big the channel is. This project asks a sharper question: given
+              only the thumbnail and the title, will this upload do better or
+              worse than its own channel's recent average? A deployed service
+              answers it before the video goes public, so creators can compare
+              thumbnail and title options with a ranking signal instead of a
+              hunch.
+            </p>
+          </div>
+          <div class="bc w4 oc rv">
+            <div class="k">Leakage guard</div>
+            <div class="n" data-n="0">0</div>
+            <p>
+              subscriber features used. The stored count is the channel's
+              current size, not its size at publish time, so the model never
+              sees it.
+            </p>
+          </div>
+          <div class="bc w12 rv">
+            <div class="k">What it predicts</div>
+            <div class="fx">
+              <s>target =</s> <em>log(1 + views)</em> <s>−</s>
+              <em>log(1 + trailing_avg_views)</em>
+            </div>
+            <p style="margin-top: 14px">
+              <code>trailing_avg_views</code> is the mean views of the channel's
+              5 most recent prior uploads, so a video never sees itself. A
+              target above zero means the video beat its channel's recent
+              average; predicted views are recovered by inverting the formula.
+            </p>
+          </div>
+          <div class="bc w6 rv">
+            <div class="k">Architecture</div>
+            <h3>A real service, end to end</h3>
+            <p>
+              Browser → Vercel (Next.js UI, per-IP rate limit) → Caddy (HTTPS,
+              API key, 5 MB cap) → FastAPI running CLIP and the ensemble on an
+              Oracle Cloud Ampere A1 VM, with Airflow handling ingestion,
+              embedding and drift monitoring.
+            </p>
+          </div>
+          <div class="bc w6 mid rv">
+            <div class="k">Where things stand</div>
+            <ul class="stat">
+              <li>
+                <i></i>
+                <div>
+                  <b>Serving: early-fusion ensemble (v2)</b
+                  ><span>Token-level RATF, 5 seeds</span>
+                </div>
+              </li>
+              <li>
+                <i class="g"></i>
+                <div>
+                  <b>Fallback: late-fusion model (v1)</b
+                  ><span
+                    >Still loadable by the API; rollback is one path
+                    change</span
+                  >
+                </div>
+              </li>
+              <li>
+                <i class="p"></i>
+                <div>
+                  <b>In validation: automatic retraining</b
+                  ><span
+                    >Built on the feat/auto-retrain branch; the DAG stays paused
+                    until it passes</span
+                  >
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="pn2">
+          <a href="result.html"><small>Previous</small>← Result</a
+          ><a href="technical.html"><small>Next</small>Technical →</a>
+        </div>
+      </div>
+    </main>
+    <footer><div class="w">© 2026 Martinus Alvin Haryanto</div></footer>
+    <script src="script.js"></script>
+  </body>
+</html>

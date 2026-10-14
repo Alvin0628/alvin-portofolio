@@ -1,0 +1,86 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>YouTube Performance Predictor · Technical — Martinus Alvin Haryanto</title><meta name="description" content="Token-level early fusion of CLIP image and title tokens with tabular features, served as a 5-member ensemble.">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css"></head><body class="t-yt">
+<header class="nav"><div class="w"><a class="logo" href="../../index.html">MAH</a><nav><a href="../../index.html#work">Work</a><a href="../../index.html#about">About</a><a href="../../index.html#contact">Contact</a></nav></div></header>
+<main><div class="w">
+<div class="crumb"><a href="../../index.html#work">Work</a> / YouTube Performance Predictor · Applied ML</div>
+<div class="tabs dcs-tabs"><a href="index.html">Home</a><a href="technical.html" class=on>Technical</a><a href="result.html">Result</a></div>
+
+<section class="tw2"><span class="chip">Technical</span>
+<h1><span class="h1w"><i style="--d:0">How</i></span> <span class="h1w"><i style="--d:1">a</i></span> <span class="h1w"><i style="--d:2">thumbnail</i></span> <span class="h1w"><i style="--d:3">and</i></span> <span class="h1w"><i style="--d:4">a</i></span> <span class="h1w"><i style="--d:5">title</i></span> <span class="h1w"><i style="--d:6">become</i></span> <span class="h1w"><i style="--d:7">a</i></span> <span class="h1w"><i style="--d:8"><em>score.</em></i></span></h1>
+<p class="sub">Frozen CLIP tokens go in, cross-attention mixes three streams, a small Transformer reads them jointly, and five seeds vote.</p></section>
+
+<div class="flow">
+<div class="bc rv"><h3>Ingest</h3><p>YouTube Data API into Postgres (pgvector); thumbnails stored in MinIO.</p></div>
+<div class="bc mid rv"><h3>Embed</h3><p>Frozen CLIP ViT-B/32 tokens: image 50 × 768, title 32 × 512.</p></div>
+<div class="bc rv"><h3>Fuse</h3><p>RATF: two cross-attention rounds, then a joint Transformer.</p></div>
+<div class="bc oc rv"><h3>Serve</h3><p>FastAPI behind Caddy, with a Next.js UI on Vercel.</p></div>
+</div>
+
+<h2 class="sec">Data</h2>
+<div class="bento">
+<div class="bc w6 rv"><div class="k">Frozen snapshot</div><div class="n" data-n="11285">0</div><h3>videos from 135 channels</h3><p>Hand-picked English-speaking personality, gaming and commentary channels, published 2025-01-01 or later, Shorts (180 s or less) excluded. A label counts as final once a video is at least 28 days old.</p>
+<div class="dist"><span class="a" style="--w:80%">80%</span><span class="b" style="--w:10%">10%</span><span class="c" style="--w:10%">10%</span></div>
+<div class="dl"><span>train 9,028</span><span>val 1,128</span><span>test 1,129</span></div></div>
+<div class="bc w6 mid rv"><div class="k">Chronological split</div><h3>Train on the past, test on the future</h3><p>The test set is strictly later than training. The tabular scaler and the genre vocabulary are fit on training rows only, so validation and test never leak into preprocessing.</p><p>Subscriber count is dropped from the inputs entirely: the stored value is the channel's current count, not its count at publish time.</p></div>
+</div>
+
+<h2 class="sec">Token-level early fusion</h2>
+<p class="secs">Instead of one vector per modality, the model keeps every token and lets the streams attend to each other.</p>
+<div class="bento">
+<div class="bc spec rv"><div class="k">Stream 1</div><div class="cls">Image</div><div class="mdl">CLIP ViT-B/32 · frozen</div><p>The CLS token plus 49 patch tokens, 768 dimensions each.</p><div class="bar"><i style="--w:100%"></i></div><p style="font-size:.85rem">50 tokens</p></div>
+<div class="bc spec mid rv"><div class="k">Stream 2</div><div class="cls">Title</div><div class="mdl">CLIP text tower · frozen</div><p>32 token states of 512 dimensions plus a padding mask. L = 32 truncates only 0.59% of titles.</p><div class="bar"><i style="--w:64%"></i></div><p style="font-size:.85rem">32 tokens</p></div>
+<div class="bc spec oc rv"><div class="k">Stream 3</div><div class="cls">Tabular</div><div class="mdl">Feature tokenizer</div><p>23 continuous features, one token each, plus a genre token. Trailing average views, duration and title statistics.</p><div class="bar"><i style="--w:48%"></i></div><p style="font-size:.85rem">24 tokens</p></div>
+<div class="bc w12 mid rv"><div class="k">The RATF mechanism</div><h3>Two rounds of cross-attention, then one joint read</h3><p class="big">Six parallel cross-attention blocks let each stream query the other two (title from image, title from tabular, image from title, and so on). The updated tokens join a CLS token to form 107 tokens, which a 3-layer Transformer (d = 192) reads together before a small MLP head outputs the score. About 3.0M parameters per member.</p></div>
+</div>
+
+<div class="vs">
+<div class="bc rv"><div class="k">Tried and dropped</div><h3>A learned reliability gate</h3><p>The gate was meant to weight each modality per sample. It saturated at its upper bound (about 2.0 for image and tabular in 5 of 5 seeds), so it behaved as a global ×2 scale. Freezing it at identity scored higher on test in 4 of 5 seeds, and that is what ships.</p></div>
+<div class="bc oc rv"><div class="k">What stabilised training</div><h3>Modality dropout</h3><p>Randomly hiding the title or image during training. Without it, one of three seeds collapsed to 0.237 validation Spearman and stopped at epoch 3; with it, every seed landed between 0.311 and 0.324.</p></div>
+</div>
+
+<h2 class="sec">Choosing the configuration</h2>
+<p class="secs">Three Optuna stages on validation only. The test set was never opened during tuning.</p>
+<div class="bento">
+<div class="bc w6 rv"><div class="k">Search</div><h3>Risk-adjusted TPE</h3><p>Each trial is scored as mean validation Spearman over two seeds minus 0.5 × std, so a configuration that collapses on one seed is penalised. Trial 0 of every stage re-runs the previous winner, which keeps the reported gains honest. Stage A ran 40 trials, B and C 24 each.</p></div>
+<div class="bc w6 mid rv"><div class="k">Confirmation</div><h3>Six candidates, three fresh seeds</h3><p>The selection rule was fixed in advance: adopt a candidate only if it beats the default by at least 0.005. The winner, <code>c24</code>, scored a risk of 0.379 against 0.265 for the default and was the most stable across seeds.</p></div>
+</div>
+<div class="tw"><table>
+<thead><tr><th>Final configuration</th><th class="n">Value</th></tr></thead>
+<tbody>
+<tr><td>Model width d / joint layers / cross-attention rounds</td><td class="n">192 / 3 / 2</td></tr>
+<tr><td>Learning rate / weight decay</td><td class="n">2.79e-4 / 0.0167</td></tr>
+<tr><td>Dropout / embedding noise / modality dropout</td><td class="n">0.079 / 0.104 / 0.087</td></tr>
+<tr><td>Parameters per member</td><td class="n">3,002,608</td></tr>
+<tr><td>Production refit</td><td class="n">train+val, 8 fixed epochs, seeds 100–104</td></tr>
+</tbody></table></div>
+
+<h2 class="sec">Serving and MLOps</h2>
+<div class="bento">
+<div class="bc w7 rv"><div class="k">Inference service</div><h3>FastAPI on an Oracle Cloud ARM VM</h3><p>Browser → Vercel (Next.js, per-IP rate limit, adds the API key) → Caddy (HTTPS, key check, 5 MB body cap) → FastAPI running the CLIP token extractor and the 5-member ensemble in Docker Compose on arm64.</p><p>The response carries the score, expected views with a typical-error band (plus or minus one test MAE in log space, not a confidence interval), and the spread across ensemble members.</p></div>
+<div class="bc w5 mid rv"><div class="k">Safe rollouts</div><h3>Bundles, not code</h3><p>The model ships as a single bundle of about 58 MB (config, scaler, genre vocabulary, five state dicts). It stays out of git, and its SHA-256 is pinned in a sidecar JSON. Rolling back means pointing <code>MODEL_BUNDLE_PATH</code> at the previous bundle.</p></div>
+<div class="bc w6 rv"><div class="k">Orchestration</div><h3>Apache Airflow</h3><p><code>ingest_new</code> runs monthly and chains into <code>embed_new</code> and <code>train_model</code>, with <code>monitor_drift</code> alongside. Every task runs in a worker container against Postgres and MinIO. Drift checks (KS tests plus channel-mix shift) are informational and never block anything.</p></div>
+<div class="bc w6 oc rv"><div class="k">Defense in depth</div><h3>Four layers</h3><p>A Vercel per-IP rate limit, then an API key checked at Caddy, then a 5 MB body cap, with Postgres, MinIO and Airflow bound to 127.0.0.1.</p></div>
+</div>
+
+<h2 class="sec">Automatic retraining</h2>
+<p class="secs">In validation on the <code>feat/auto-retrain</code> branch. The pipeline is built; its DAG stays paused until it passes.</p>
+<div class="bento"><div class="bc w12 mid rv"><div class="k">python -m early_fusion.retrain all</div>
+<div class="steps"><span>export</span><u>→</u><span>tokens</span><u>→</u><span>split</span><u>→</u><span>train</span><u>→</u><span>package</span><u>→</u><span>verify</span><u>→</u><span>gate</span></div>
+<p style="margin-top:16px">Only new videos are embedded (an incremental token store). Five seeds are refit on train+val with the production recipe, packaged into one bundle that records its train_end and snapshot hashes, verified, and only then judged.</p></div></div>
+<div class="gate3">
+<div class="bc rv"><div class="n">01</div><h3>Hard gate</h3><p>The candidate must beat a linear trailing-average baseline. This catches broken runs.</p></div>
+<div class="bc mid rv"><div class="n">02</div><h3>Soft gate</h3><p>A paired bootstrap on the same test rows (2,000 resamples). Rejected only if the interval's upper bound is below −0.01, so ties go to the newer model.</p></div>
+<div class="bc oc rv"><div class="n">03</div><h3>Anchor gate</h3><p>The candidate is also compared with a fixed v1 reference that is never overwritten, so small regressions cannot accumulate unnoticed.</p></div>
+</div>
+<div class="bento">
+<div class="bc w6 rv"><div class="k">Atomic swap</div><h3>A crash never half-promotes</h3><p>A promotion copies the live bundle to <code>prev</code>, then replaces <code>latest</code> atomically per file; if the process dies in between, latest stays the old, intact bundle. The API restarts only when a swap was actually applied, and retraining is skipped when fewer than 100 new videos have arrived.</p></div>
+<div class="bc w6 rv"><div class="k">Stack</div><h3>End to end</h3><div class="pills"><span>PyTorch</span><span>CLIP</span><span>Optuna</span><span>FastAPI</span><span>Docker</span><span>Caddy</span><span>Airflow</span><span>Postgres + pgvector</span><span>MinIO</span><span>Next.js</span><span>Vercel</span><span>Oracle Cloud</span><span>GitHub Actions</span></div></div>
+</div>
+<div class="co">The research doc lists its own weaknesses: one temporal split, large seed variance, a baseline with about 73× fewer parameters, and a deployed variant chosen after seeing a test ablation.</div>
+
+<div class="pn2"><a href="index.html"><small>Previous</small>← Home</a><a href="result.html"><small>Next</small>Result →</a></div>
+</div></main>
+<footer><div class="w">© 2026 Martinus Alvin Haryanto</div></footer><script src="script.js"></script></body></html>
