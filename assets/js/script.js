@@ -31,3 +31,29 @@ const size=Math.max(30,Math.min(100*(target/w),190));txt.style.fontSize=size+'px
 fitStatement();let rt;addEventListener('resize',()=>{clearTimeout(rt);rt=setTimeout(fitStatement,120)});
 if(document.fonts&&document.fonts.ready)document.fonts.ready.then(fitStatement)}})();
 
+
+/* Homepage enhancements: background videos + experience/certificate images */
+(()=>{const red=matchMedia('(prefers-reduced-motion:reduce)').matches;
+const vids=[...document.querySelectorAll('.bg-video')];
+if(vids.length){const vis=new Set();
+const play=v=>{if(red)return;const p=v.play();if(p&&p.catch)p.catch(()=>{})};
+vids.forEach(v=>{const box=v.parentElement;
+v.muted=true;v.defaultMuted=true;v.loop=true;v.playsInline=true;
+const ready=()=>box.classList.add('on');
+if(v.readyState>=2)ready();else v.addEventListener('loadeddata',ready,{once:true});
+if(red){v.removeAttribute('autoplay');v.pause();v.addEventListener('play',()=>v.pause())}});
+const vo=new IntersectionObserver(es=>es.forEach(e=>{const v=e.target.querySelector('.bg-video');if(!v)return;
+if(e.isIntersecting){vis.add(v);play(v)}else{vis.delete(v);v.pause()}}),{threshold:0});
+vids.forEach(v=>vo.observe(v.parentElement));
+const unlock=()=>vids.forEach(v=>{if(v.paused&&vis.has(v))play(v)});
+['pointerdown','touchend','keydown'].forEach(t=>addEventListener(t,unlock,{passive:true}))}
+const slots=document.querySelectorAll('[data-img]');
+if(slots.length){const exts=['jpg','jpeg','png','webp'];
+const load=el=>{const base=el.dataset.img;
+const list=/\.[a-z0-9]{3,4}$/i.test(base)?[base]:exts.map(x=>base+'.'+x);let i=0;
+(function next(){if(i>=list.length)return;const im=new Image();
+im.onload=()=>{im.alt=el.dataset.alt||'';im.decoding='async';el.appendChild(im);el.classList.add('has-img')};
+im.onerror=next;im.src=list[i++]})()};
+if(!('IntersectionObserver' in window))slots.forEach(load);
+else{const so=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){so.unobserve(e.target);load(e.target)}}),{rootMargin:'300px'});
+slots.forEach(el=>so.observe(el))}}})();

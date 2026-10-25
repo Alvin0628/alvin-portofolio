@@ -37,6 +37,21 @@
     </header>
     <main id="top">
       <section class="hero">
+        <div class="bg-media" aria-hidden="true">
+          <video
+            class="bg-video"
+            autoplay
+            muted
+            loop
+            playsinline
+            preload="auto"
+            disablepictureinpicture
+            disableremoteplayback
+            tabindex="-1"
+          >
+            <source src="assets/videos/pp_background.mp4" type="video/mp4" />
+          </video>
+        </div>
         <div class="hero-glow" aria-hidden="true"></div>
         <div class="w">
           <div class="hero-top">
@@ -225,6 +240,24 @@
         </div>
       </section>
       <section id="about" class="about">
+        <div class="bg-media" aria-hidden="true">
+          <video
+            class="bg-video"
+            autoplay
+            muted
+            loop
+            playsinline
+            preload="metadata"
+            disablepictureinpicture
+            disableremoteplayback
+            tabindex="-1"
+          >
+            <source
+              src="assets/videos/aboutme_background.mp4"
+              type="video/mp4"
+            />
+          </video>
+        </div>
         <div class="w">
           <div class="rv">
             <h2>About</h2>
@@ -280,41 +313,7 @@
               ><span>Firebase, Supabase, AWS, cloud deployment</span>
             </li>
           </ul>
-          <div class="blk rv">
-            <h3>Experience</h3>
-            <p class="org">
-              Himpunan Mahasiswa Teknik Informatika (HIMTI), BINUS University
-            </p>
-            <div class="tl">
-              <div>
-                <b>Activist — Publication &amp; Marketing</b
-                ><small>Oct 2024 – Oct 2025</small>
-                <p>
-                  Coordinated event planning and served as Event Coordinator for
-                  School of Computer Science programs, including TECHNO,
-                  SESVENT, and FEAST 2025, overseeing logistics and end-to-end
-                  event execution.
-                </p>
-              </div>
-              <div>
-                <b>Freshmen Partner</b><small>Sept 2025 – Sept 2026</small>
-                <p>
-                  Mentored first-year students in adapting to academic and
-                  campus life, providing guidance on university systems and
-                  student activities.
-                </p>
-              </div>
-              <div>
-                <b>Freshmen Leader</b><small>Sept 2025</small>
-                <p>
-                  Led orientation sessions and team-building activities during
-                  the Freshmen Year Program (FYP) to support first-year
-                  students' transition into university life.
-                </p>
-              </div>
-            </div>
-          </div>
-          <div class="blk rv">
+          <div class="blk edu rv">
             <h3>Education</h3>
             <div class="tl">
               <div>
@@ -331,6 +330,197 @@
                 <p>Focus in Science &amp; Mathematics</p>
               </div>
             </div>
+          </div>
+        </div>
+      </section>
+      <section id="experience" class="experience">
+        <div class="w">
+          <h2>Experience</h2>
+          <p class="org rv">
+            Himpunan Mahasiswa Teknik Informatika (HIMTI), BINUS University
+          </p>
+          <ol class="xt" role="list">
+            <li class="xt-item rv">
+              <div class="xt-card">
+                <div class="xt-body">
+                  <small class="xt-date">Oct 2024 – Oct 2025</small>
+                  <h3>Activist — Publication &amp; Marketing</h3>
+                  <p>
+                    Coordinated event planning and served as Event Coordinator
+                    for School of Computer Science programs, including TECHNO,
+                    SESVENT, and FEAST 2025, overseeing logistics and end-to-end
+                    event execution.
+                  </p>
+                </div>
+                <!-- Photo: add assets/img/exp_1 (.jpg / .jpeg / .png / .webp) -->
+                <div
+                  class="media xt-media"
+                  data-img="assets/img/exp_1"
+                  data-alt="Activist, Publication &amp; Marketing at HIMTI, BINUS University"
+                >
+                  <span class="media-ph">Photo coming soon</span>
+                </div>
+              </div>
+            </li>
+            <li class="xt-item rv">
+              <div class="xt-card">
+                <div class="xt-body">
+                  <small class="xt-date">Sept 2025 – Sept 2026</small>
+                  <h3>Freshmen Partner</h3>
+                  <p>
+                    Mentored first-year students in adapting to academic and
+                    campus life, providing guidance on university systems and
+                    student activities.
+                  </p>
+                </div>
+                <!-- Photo: add assets/img/exp_2 (.jpg / .jpeg / .png / .webp) -->
+                <div
+                  class="media xt-media"
+                  data-img="assets/img/exp_2"
+                  data-alt="Freshmen Partner at HIMTI, BINUS University"
+                >
+                  <span class="media-ph">Photo coming soon</span>
+                </div>
+              </div>
+            </li>
+            <li class="xt-item rv">
+              <div class="xt-card">
+                <div class="xt-body">
+                  <small class="xt-date">Sept 2025</small>
+                  <h3>Freshmen Leader</h3>
+                  <p>
+                    Led orientation sessions and team-building activities during
+                    the Freshmen Year Program (FYP) to support first-year
+                    students' transition into university life.
+                  </p>
+                </div>
+                <!-- Photo: add assets/img/exp_3 (.jpg / .jpeg / .png / .webp) -->
+                <div
+                  class="media xt-media"
+                  data-img="assets/img/exp_3"
+                  data-alt="Freshmen Leader at HIMTI, BINUS University"
+                >
+                  <span class="media-ph">Photo coming soon</span>
+                </div>
+              </div>
+            </li>
+          </ol>
+          <p class="org rv">Personal Experience</p>
+          <ol class="xt" role="list">
+            <li class="xt-item rv">
+              <div class="xt-card">
+                <div class="xt-body">
+                  <small class="xt-date">January 2024 - Now</small>
+                  <h3>Founder of SugarSnap</h3>
+                  <p>
+                    As the founder of SugarSnap, I manage sales and inventory
+                    analysis using Excel and Power BI dashboards to monitor
+                    sales performance, track stock levels, identify demand
+                    trends, and support data-driven business decisions.
+                  </p>
+                </div>
+                <!-- Photo: add assets/img/exp_3 (.jpg / .jpeg / .png / .webp) -->
+                <div
+                  class="media xt-media"
+                  data-img="assets/img/exp_4"
+                  data-alt="Founder of SugarSnap"
+                >
+                  <span class="media-ph">Photo coming soon</span>
+                </div>
+              </div>
+            </li>
+            <li class="xt-item rv">
+              <div class="xt-card">
+                <div class="xt-body">
+                  <small class="xt-date">July 2025 - December 2025</small>
+                  <h3>Founder of Rovka Roastery</h3>
+                  <p>
+                    As the founder of Rovka Roastery, I developed a Java-based
+                    inventory management system to track stock levels, manage
+                    inventory movements, and streamline stock monitoring to
+                    support efficient day-to-day business operations.
+                  </p>
+                </div>
+                <!-- Photo: add assets/img/exp_3 (.jpg / .jpeg / .png / .webp) -->
+                <div
+                  class="media xt-media"
+                  data-img="assets/img/exp_5"
+                  data-alt="Founder of Rovka Roastery"
+                >
+                  <span class="media-ph">Photo coming soon</span>
+                </div>
+              </div>
+            </li>
+            <li class="xt-item rv">
+              <div class="xt-card">
+                <div class="xt-body">
+                  <small class="xt-date">July 2025 - August 2025</small>
+                  <h3>Freelance POS System Developer</h3>
+                  <p>
+                    Developed a custom POS system for my family’s building
+                    materials business, integrating sales checkout, invoice
+                    generation, employee attendance tracking, and delivery
+                    record management to streamline daily operations and improve
+                    transaction accuracy.
+                  </p>
+                </div>
+                <!-- Photo: add assets/img/exp_3 (.jpg / .jpeg / .png / .webp) -->
+                <div
+                  class="media xt-media"
+                  data-img="assets/img/exp_6"
+                  data-alt="Freelance POS System Developer"
+                >
+                  <span class="media-ph">Photo coming soon</span>
+                </div>
+              </div>
+            </li>
+          </ol>
+        </div>
+      </section>
+      <section id="certificates" class="certificates">
+        <div class="w">
+          <h2>Certificates</h2>
+          <div class="certs">
+            <!-- Certificate 1: replace the placeholder text below and add assets/img/cert_1 -->
+            <article class="cert rv">
+              <div
+                class="media cert-media"
+                data-img="assets/img/cert_1"
+                data-alt="Certificate 1"
+              >
+                <span class="media-ph">Certificate image</span>
+              </div>
+              <div class="cert-body">
+                <h3>
+                  Dean's List Certificate from SoCS Bina Nusantara University
+                </h3>
+                <dl class="cert-meta">
+                  <div>
+                    <dt>Issued</dt>
+                    <dd>December 2025</dd>
+                  </div>
+                </dl>
+              </div>
+            </article>
+            <!-- Certificate 2: replace the placeholder text below and add assets/img/cert_2 -->
+            <article class="cert rv">
+              <div
+                class="media cert-media"
+                data-img="assets/img/cert_2"
+                data-alt="Certificate 2"
+              >
+                <span class="media-ph">Certificate image</span>
+              </div>
+              <div class="cert-body">
+                <h3>Microsoft Azure AI Fundamentals (AI-900)</h3>
+                <dl class="cert-meta">
+                  <div>
+                    <dt>Issued</dt>
+                    <dd>March 2026</dd>
+                  </div>
+                </dl>
+              </div>
+            </article>
           </div>
         </div>
       </section>
