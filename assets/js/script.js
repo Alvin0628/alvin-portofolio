@@ -22,7 +22,7 @@ hero.appendChild(s);setTimeout(()=>s.remove(),950)});
 hero.addEventListener('pointerleave',()=>hero.classList.remove('glow-on'));
 hero.addEventListener('pointerenter',()=>hero.classList.add('glow-on'))}
 const st=q('.statement'),txt=q('#statementText');
-if(st&&txt){const once=new IntersectionObserver(e=>{if(e[0].isIntersecting){st.classList.add('in');once.disconnect()}},{threshold:.4});
+if(st&&txt){const once=new IntersectionObserver(e=>{if(e[0].isIntersecting){st.classList.add('in');once.disconnect()}},{threshold:.2});
 red?st.classList.add('in'):once.observe(st);
 const mq=matchMedia('(max-width:800px)');
 function fitStatement(){if(mq.matches){txt.style.fontSize='';return}
@@ -39,7 +39,7 @@ if(vids.length){const vis=new Set();
 const play=v=>{if(red)return;const p=v.play();if(p&&p.catch)p.catch(()=>{})};
 vids.forEach(v=>{const box=v.parentElement;
 v.muted=true;v.defaultMuted=true;v.loop=true;v.playsInline=true;
-const ready=()=>box.classList.add('on');
+const ready=()=>{box.classList.add('on');box.parentElement.classList.add('has-video')};
 if(v.readyState>=2)ready();else v.addEventListener('loadeddata',ready,{once:true});
 if(red){v.removeAttribute('autoplay');v.pause();v.addEventListener('play',()=>v.pause())}});
 const vo=new IntersectionObserver(es=>es.forEach(e=>{const v=e.target.querySelector('.bg-video');if(!v)return;
@@ -56,4 +56,11 @@ im.onload=()=>{im.alt=el.dataset.alt||'';im.decoding='async';el.appendChild(im);
 im.onerror=next;im.src=list[i++]})()};
 if(!('IntersectionObserver' in window))slots.forEach(load);
 else{const so=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){so.unobserve(e.target);load(e.target)}}),{rootMargin:'300px'});
-slots.forEach(el=>so.observe(el))}}})();
+slots.forEach(el=>so.observe(el))}}
+const kv=document.querySelector('.keep-video');
+if(kv){const box=kv.parentElement;kv.muted=true;kv.defaultMuted=true;kv.loop=true;kv.playsInline=true;
+const ready=()=>{box.classList.add('on');box.parentElement.classList.add('has-video')};
+if(kv.readyState>=2)ready();else kv.addEventListener('loadeddata',ready,{once:true});
+const go=()=>{if(red||!kv.paused)return;const p=kv.play();if(p&&p.catch)p.catch(()=>{})};
+if(red){kv.removeAttribute('autoplay');kv.pause();kv.addEventListener('play',()=>kv.pause())}
+else{go();['pointerdown','touchend','keydown'].forEach(t=>addEventListener(t,go,{passive:true}))}}})();
