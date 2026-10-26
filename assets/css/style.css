@@ -1968,3 +1968,655 @@ th {
     grid-template-columns: 1fr;
   }
 }
+
+/* ==========================================================
+   Hero: pinned, scroll-driven scene + intro loader
+   (UX inspired by landonorris.com, built with plain CSS/JS)
+
+   Story, driven by --p (0 -> 1) while the hero is pinned:
+   1. only the photo, big and centred
+   2. photo shrinks up, name appears line by line (centred)
+   3. role, typed line and the Projects button appear
+   Without JS / with reduced motion --p stays 1 = final layout.
+   ========================================================== */
+
+.hero {
+  display: block;
+  min-height: 0;
+  padding: 0;
+  overflow: visible;
+  /* start the hero at the very top of the page; the 72px header sits over it */
+  margin-top: -72px;
+}
+
+.t-home header.nav {
+  position: relative;
+  z-index: 20;
+}
+
+.hero-stage {
+  --p: 1;
+  --pt: clamp(122px, 15svh, 142px);
+  --ph: clamp(140px, 23svh, 250px);
+  --name-h: 10.2;
+  /* sub-progress of each piece (0..1) */
+  --e-g: clamp(0, calc((var(--p) - 0.02) / 0.18), 1);
+  --e-ph: clamp(0, calc((var(--p) - 0.14) / 0.14), 1);
+  --s-ph: calc(var(--e-ph) * var(--e-ph) * (3 - 2 * var(--e-ph)));
+  --e-n1: clamp(0, calc((var(--p) - 0.24) / 0.14), 1);
+  --e-n2: clamp(0, calc((var(--p) - 0.3) / 0.14), 1);
+  --e-n3: clamp(0, calc((var(--p) - 0.36) / 0.14), 1);
+  --e-r: clamp(0, calc((var(--p) - 0.48) / 0.12), 1);
+  --e-t: clamp(0, calc((var(--p) - 0.54) / 0.12), 1);
+  --e-c: clamp(0, calc((var(--p) - 0.6) / 0.12), 1);
+  --e-m: clamp(0, calc((var(--p) - 0.58) / 0.14), 1);
+  position: relative;
+  height: 100svh;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  html.js .hero {
+    height: 270svh;
+  }
+
+  html.js .hero-stage {
+    --p: 0;
+    position: sticky;
+    top: 0;
+  }
+
+  html.js .hero .bg-media {
+    transform: scale(calc(1 + var(--p) * 0.12));
+  }
+}
+
+/* grid + corner glow live on the stage instead of the (tall) track */
+.t-home .hero:before,
+.t-home .hero:after {
+  content: none;
+}
+
+.t-home .hero-stage:before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  background-image:
+    linear-gradient(rgba(178, 179, 182, 0.07) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(178, 179, 182, 0.07) 1px, transparent 1px);
+  background-size: 88px 88px;
+  -webkit-mask-image: radial-gradient(
+    ellipse 80% 70% at 50% 55%,
+    #000 20%,
+    transparent 75%
+  );
+  mask-image: radial-gradient(
+    ellipse 80% 70% at 50% 55%,
+    #000 20%,
+    transparent 75%
+  );
+}
+
+.t-home .hero-stage:after {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  right: -14vw;
+  bottom: -22vh;
+  width: 70vw;
+  height: 70vw;
+  border-radius: 50%;
+  background: radial-gradient(
+    closest-side,
+    rgba(87, 0, 11, 0.85),
+    rgba(87, 0, 11, 0)
+  );
+  filter: blur(20px);
+  transition: opacity 1.2s ease;
+}
+
+.hero-stage.has-video:after {
+  opacity: 0;
+}
+
+.hero-stage:hover .hero-glow,
+.hero-stage.glow-on .hero-glow {
+  opacity: 1;
+}
+
+.hero-glow {
+  z-index: 1;
+}
+
+.ember {
+  z-index: 3;
+}
+
+/* ---- opening scene: a full-screen "Hi, I'm Alvin" ---- */
+.hero-hi {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  display: grid;
+  grid-template-columns: max-content max-content;
+  justify-content: center;
+  align-content: center;
+  padding: 84px clamp(20px, 2.4vw, 40px) 40px;
+  text-align: center;
+  font-family: "Space Grotesk", Inter, system-ui, sans-serif;
+  font-weight: 700;
+  line-height: 0.84;
+  letter-spacing: -0.04em;
+  text-transform: uppercase;
+  color: #fff;
+  pointer-events: none;
+  opacity: clamp(0, calc(1 - var(--e-g) * 1.3), 1);
+  transform: scale(calc(1 + var(--e-g) * 0.14));
+}
+
+.hero-hi .hl {
+  display: block;
+  overflow: hidden;
+  /* extra room below so the comma's tail is not clipped by the reveal mask */
+  padding: 0.06em 0.04em 0.24em;
+  margin-bottom: -0.18em;
+}
+
+.hero-hi .hl > span {
+  display: inline-block;
+}
+
+.hero-hi .hl:nth-child(1),
+.hero-hi .hl:nth-child(2) {
+  transform: translate3d(calc(var(--e-g) * -9vw), 0, 0);
+}
+
+.hero-hi .hl:nth-child(3) {
+  grid-column: 1 / -1;
+  justify-self: center;
+  transform: translate3d(calc(var(--e-g) * 9vw), 0, 0);
+}
+
+/* outlined words, so the video shows through the letters */
+.hero-hi .hl-out > span {
+  color: rgba(255, 255, 255, 0.05);
+  -webkit-text-stroke: max(2px, 0.012em) #fff;
+  letter-spacing: -0.01em;
+  filter: drop-shadow(0 0 14px rgba(0, 0, 0, 0.45));
+}
+
+/* solid word with a slow light sweep */
+.hero-hi .hl-fill > span {
+  background: linear-gradient(
+    100deg,
+    #e6e7e8 0%,
+    #e6e7e8 38%,
+    #ffffff 50%,
+    #e6e7e8 62%,
+    #e6e7e8 100%
+  );
+  background-size: 300% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: hiSheen 7s linear infinite;
+}
+
+/* ---- centred column: photo > name > role > typed line > button ---- */
+.hero-main {
+  --gx: clamp(20px, 2.4vw, 40px);
+  position: relative;
+  z-index: 2;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: var(--pt) var(--gx) 0;
+}
+
+.hp {
+  flex: none;
+  opacity: var(--s-ph);
+  transform: translate3d(0, calc((1 - var(--s-ph)) * 36px), 0)
+    scale(calc(0.9 + var(--s-ph) * 0.1));
+}
+
+.hero-photo {
+  width: auto;
+  height: var(--ph);
+  aspect-ratio: 4 / 5;
+  max-height: none;
+  align-self: auto;
+}
+
+.hero .hero-name,
+.hero h1.hero-name {
+  flex: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: clamp(10px, 2svh, 20px) 0 0;
+  font-family: "Space Grotesk", Inter, system-ui, sans-serif;
+  font-weight: 700;
+  font-size: min(15vw, calc(var(--name-h) * 1svh));
+  line-height: 0.88;
+  letter-spacing: -0.045em;
+  text-transform: uppercase;
+  color: #fff;
+  text-shadow: none;
+}
+
+.hero:hover .hero-name,
+.t-home .hero h1 {
+  text-shadow: none;
+}
+
+.hero-name .nl {
+  display: block;
+  overflow: hidden;
+  padding: 0.02em 0.05em 0.07em;
+}
+
+.hero-name .nl > span {
+  display: inline-block;
+  transform: translateY(calc((1 - var(--e-n1)) * 118%));
+}
+
+.hero-name .nl:nth-child(2) > span {
+  transform: translateY(calc((1 - var(--e-n2)) * 118%));
+}
+
+.hero-name .nl:nth-child(3) > span {
+  transform: translateY(calc((1 - var(--e-n3)) * 118%));
+}
+
+.hero-left {
+  flex: none;
+  margin-top: clamp(8px, 1.6svh, 16px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.hero-role {
+  margin: 0;
+  font-size: clamp(1.25rem, 2.1vw, 1.9rem);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+  opacity: var(--e-r);
+  transform: translateY(calc((1 - var(--e-r)) * 22px));
+}
+
+.hero .role-cycle {
+  color: #b2b3b6;
+}
+
+.hero .type {
+  margin-top: 8px;
+  opacity: var(--e-t);
+  transform: translateY(calc((1 - var(--e-t)) * 22px));
+}
+
+.t-home .hero .cta {
+  margin-top: clamp(12px, 2.2svh, 22px);
+  opacity: var(--e-c);
+  transform: translateY(calc((1 - var(--e-c)) * 22px));
+}
+
+.hero .meta {
+  position: absolute;
+  left: var(--gx);
+  right: var(--gx);
+  bottom: clamp(14px, 3svh, 28px);
+  margin: 0;
+  padding-top: 14px;
+  opacity: var(--e-m);
+}
+
+.hero-early .hero-left {
+  visibility: hidden;
+}
+
+/* ---- ticker (appears with the text) ---- */
+.hero-ticker {
+  position: absolute;
+  z-index: 2;
+  top: 80px;
+  left: 0;
+  right: 0;
+  height: 34px;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  border-block: 1px solid rgba(234, 233, 231, 0.14);
+  background: rgba(0, 20, 16, 0.28);
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
+  font:
+    500 0.72rem ui-monospace,
+    SFMono-Regular,
+    Menlo,
+    monospace;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: #b2b3b6;
+  pointer-events: none;
+  opacity: var(--e-m);
+}
+
+.hero-ticker-shift {
+  display: flex;
+  will-change: transform;
+  transform: translate3d(calc(var(--p) * -12vw), 0, 0);
+}
+
+.hero-ticker-track {
+  display: flex;
+  flex: none;
+  animation: heroTick 46s linear infinite;
+}
+
+.hero-ticker-set {
+  display: flex;
+  flex: none;
+  min-width: 130vw;
+  align-items: center;
+  justify-content: space-around;
+}
+
+.hero-ticker-set span {
+  white-space: nowrap;
+}
+
+.hero-ticker-set i {
+  flex: none;
+  width: 5px;
+  height: 5px;
+  background: #b2b3b6;
+  opacity: 0.6;
+  transform: rotate(45deg);
+}
+
+@keyframes heroTick {
+  to {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
+/* ---- "scroll" hint, only while the photo is alone ---- */
+.hero-cue {
+  position: absolute;
+  z-index: 2;
+  left: 50%;
+  bottom: clamp(18px, 4svh, 34px);
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  font:
+    500 0.72rem ui-monospace,
+    SFMono-Regular,
+    Menlo,
+    monospace;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: #b2b3b6;
+  pointer-events: none;
+  opacity: clamp(0, calc(1 - var(--p) * 30), 1);
+}
+
+.hero-cue i {
+  display: block;
+  width: 1px;
+  height: 38px;
+  background: linear-gradient(#b2b3b6, transparent);
+  transform-origin: top;
+  animation: heroCue 1.8s ease-in-out infinite;
+}
+
+@keyframes heroCue {
+  0% {
+    transform: scaleY(0);
+  }
+  50% {
+    transform: scaleY(1);
+  }
+  100% {
+    transform: scaleY(1);
+    opacity: 0;
+  }
+}
+
+/* ---- entrance after the intro: only the photo (and the hint) ---- */
+@keyframes heroRise {
+  from {
+    transform: translateY(112%);
+  }
+}
+
+@keyframes hiSheen {
+  from {
+    background-position: 100% 0;
+  }
+  to {
+    background-position: -100% 0;
+  }
+}
+
+@keyframes heroFadeIn {
+  from {
+    opacity: 0;
+  }
+}
+
+html.js .hero:not(.hero-in) :is(.hero-cue i, .hero-cue span) {
+  opacity: 0;
+}
+
+html.js .hero:not(.hero-in) .hl > span {
+  transform: translateY(112%);
+}
+
+.hero-in .hl > span {
+  animation: heroRise 1.25s cubic-bezier(0.16, 1, 0.3, 1) backwards;
+}
+
+.hero-in .hl:nth-child(1) > span {
+  animation-delay: 0.12s;
+}
+
+.hero-in .hl:nth-child(2) > span {
+  animation-delay: 0.22s;
+}
+
+.hero-in .hl:nth-child(3) > span {
+  animation-delay: 0.36s;
+}
+
+.hero-in .hero-cue span {
+  animation: heroFadeIn 1s 1s backwards;
+}
+
+/* safety net: if the script never runs, nothing stays hidden */
+html.fs .hero :is(.hero-cue i, .hero-cue span) {
+  opacity: 1 !important;
+}
+
+html.fs .hero .hl > span {
+  transform: none !important;
+}
+
+/* ---- intro loader ---- */
+.intro {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: none;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: clamp(20px, 3vw, 40px);
+  background: var(--bg);
+  color: var(--ink);
+  clip-path: inset(0 0 0 0);
+  transition: clip-path 0.95s cubic-bezier(0.76, 0, 0.24, 1);
+}
+
+html.has-intro .intro {
+  display: flex;
+}
+
+html.has-intro {
+  overflow: hidden;
+}
+
+.intro.out {
+  clip-path: inset(0 0 100% 0);
+}
+
+.intro-top,
+.intro-name {
+  font:
+    500 0.76rem ui-monospace,
+    SFMono-Regular,
+    Menlo,
+    monospace;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #b2b3b6;
+}
+
+.intro-top {
+  display: flex;
+  justify-content: space-between;
+}
+
+.intro-name {
+  margin: 0 0 clamp(8px, 2vh, 20px);
+}
+
+.intro-count {
+  font:
+    700 clamp(5.5rem, 22vw, 17rem) / 0.8 "Space Grotesk",
+    Inter,
+    system-ui,
+    sans-serif;
+  letter-spacing: -0.05em;
+  font-variant-numeric: tabular-nums;
+  margin-bottom: clamp(14px, 3vh, 28px);
+}
+
+.intro-count sup {
+  font-size: 0.2em;
+  letter-spacing: 0;
+  margin-left: 0.12em;
+  vertical-align: top;
+  line-height: 1.4;
+}
+
+.intro-bar {
+  height: 2px;
+  background: rgba(234, 233, 231, 0.16);
+  overflow: hidden;
+}
+
+.intro-bar i {
+  display: block;
+  height: 100%;
+  background: var(--acc);
+  transform: scaleX(0);
+  transform-origin: left;
+}
+
+html.fs .intro {
+  display: none !important;
+}
+
+html.fs.has-intro {
+  overflow: auto !important;
+}
+
+/* ---- phones ---- */
+@media (max-width: 800px) {
+  .hero-stage {
+    --pt: 124px;
+    --ph: clamp(130px, 22svh, 200px);
+    --name-h: 10.4;
+  }
+
+  .hero .hero-name,
+  .hero h1.hero-name {
+    font-size: min(17vw, calc(var(--name-h) * 1svh));
+  }
+
+  .hero .meta {
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+  }
+
+  .hero-hi {
+    grid-template-columns: 1fr;
+  }
+
+  .hero-hi .hl:nth-child(1),
+  .hero-hi .hl:nth-child(2),
+  .hero-hi .hl:nth-child(3) {
+    grid-column: auto;
+    justify-self: center;
+  }
+}
+
+/* portrait tablets: stack the opening greeting too, so it fills the screen */
+@media (min-width: 801px) and (max-aspect-ratio: 1/1) {
+  .hero-hi {
+    grid-template-columns: 1fr;
+  }
+
+  .hero-hi .hl:nth-child(1),
+  .hero-hi .hl:nth-child(2),
+  .hero-hi .hl:nth-child(3) {
+    grid-column: auto;
+    justify-self: center;
+  }
+}
+
+/* short screens: keep the whole final layout inside the viewport */
+@media (min-width: 801px) and (max-height: 720px) {
+  .hero-stage {
+    --pt: 114px;
+    --ph: 20svh;
+    --name-h: 10;
+  }
+
+  .hero .type {
+    display: none;
+  }
+}
+
+@media (max-width: 800px) and (max-height: 700px) {
+  .hero-stage {
+    --ph: 18svh;
+    --name-h: 9.6;
+  }
+
+  .hero .type {
+    display: none;
+  }
+}
+
+@media (max-width: 800px) and (max-height: 620px) {
+  .hero-stage {
+    --pt: 112px;
+    --ph: 15svh;
+    --name-h: 8.8;
+  }
+
+  .hero .meta span:last-child {
+    display: none;
+  }
+}

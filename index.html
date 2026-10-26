@@ -8,6 +8,24 @@
       name="description"
       content="Undergraduate CS student at BINUS University building end-to-end machine learning systems: research, data platforms, and deployed computer vision products."
     />
+    <script>
+      (function (d) {
+        var h = d.documentElement;
+        h.classList.add("js");
+        var seen = 0;
+        try {
+          seen = sessionStorage.getItem("introSeen");
+        } catch (e) {}
+        if (
+          !matchMedia("(prefers-reduced-motion:reduce)").matches &&
+          (!seen || /[?&]intro\b/.test(location.search))
+        )
+          h.classList.add("has-intro");
+        setTimeout(function () {
+          h.classList.add("fs");
+        }, 7000);
+      })(document);
+    </script>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -17,66 +35,99 @@
     <link rel="stylesheet" href="assets/css/style.css" />
   </head>
   <body class="t-home">
+    <div class="intro" id="intro" aria-hidden="true">
+      <div class="intro-top"><span>MAH</span><span>Portfolio</span></div>
+      <div class="intro-bottom">
+        <p class="intro-name">Martinus Alvin Haryanto</p>
+        <div class="intro-count">
+          <span id="introNum">0</span><sup>%</sup>
+        </div>
+        <div class="intro-bar"><i id="introBar"></i></div>
+      </div>
+    </div>
     <header class="nav">
       <div class="w">
         <a class="logo" href="#top">MAH</a>
         <nav>
           <a href="#work">Work</a><a href="#about">About</a
           ><a href="#contact">Contact</a>
+          <div class="dd">
+            <button aria-haspopup="true">Resume ↓</button>
+            <div class="ddm">
+              <a href="assets/resume/Alvin_Resume.pdf" download>Download PDF</a
+              ><a href="assets/resume/Alvin_Resume.docx" download
+                >Download Word</a
+              >
+            </div>
+          </div>
         </nav>
       </div>
     </header>
     <main id="top">
-      <section class="hero">
-        <div class="bg-media" aria-hidden="true">
-          <video
-            class="bg-video"
-            autoplay
-            muted
-            loop
-            playsinline
-            preload="auto"
-            disablepictureinpicture
-            disableremoteplayback
-            tabindex="-1"
-          >
-            <source src="assets/videos/pp_background.mp4" type="video/mp4" />
-          </video>
-        </div>
-        <div class="hero-glow" aria-hidden="true"></div>
-        <div class="w">
-          <div class="hero-top">
-            <div class="hero-photo">
-              <img
-                src="assets/img/profile.jpg"
-                alt="Martinus Alvin Haryanto"
-                width="640"
-                height="640"
-              />
+      <section class="hero" id="hero">
+        <div class="hero-stage">
+          <div class="bg-media" aria-hidden="true">
+            <video
+              class="bg-video"
+              autoplay
+              muted
+              loop
+              playsinline
+              preload="auto"
+              disablepictureinpicture
+              disableremoteplayback
+              tabindex="-1"
+            >
+              <source src="assets/videos/pp_background.mp4" type="video/mp4" />
+            </video>
+          </div>
+          <div class="hero-glow" aria-hidden="true"></div>
+          <div class="hero-hi" aria-hidden="true">
+            <span class="hl hl-out"><span>Hi,</span></span>
+            <span class="hl hl-out"><span>I'm</span></span>
+            <span class="hl hl-fill"><span>Alvin</span></span>
+          </div>
+          <div class="hero-main">
+            <div class="hp">
+              <div class="hero-photo">
+                <img
+                  src="assets/img/profile.jpg"
+                  alt="Martinus Alvin Haryanto"
+                  width="640"
+                  height="640"
+                />
+              </div>
             </div>
-            <h1>
-              <span class="hero-name">Martinus Alvin Haryanto</span>
-              <span class="hero-role">
+            <h1 class="hero-name" aria-label="Martinus Alvin Haryanto">
+              <span class="nl"><span>Martinus</span></span
+              ><span class="nl"><span>Alvin</span></span
+              ><span class="nl"><span>Haryanto</span></span>
+            </h1>
+            <div class="hero-left">
+              <p class="hero-role">
                 <span
                   id="roles"
                   class="role-cycle"
                   data-w="Data Science|Machine Learning|Computer Vision|NLP|MLOps|ML Engineering"
                 ></span>
                 <span class="hero-tag">Practitioner</span>
-              </span>
-            </h1>
+              </p>
+              <p
+                class="type"
+                id="type"
+                data-p="I build end-to-end machine learning systems.|I build production ML pipelines.|I build computer vision products.|I build data platforms."
+              ></p>
+              <div class="cta">
+                <a class="btn p" href="#work">Projects</a>
+              </div>
+            </div>
+            <div class="meta">
+              <span>Based in Jakarta, Indonesia</span
+              ><span>Undergraduate CS Student, BINUS University</span>
+            </div>
           </div>
-          <p
-            class="type"
-            id="type"
-            data-p="I build end-to-end machine learning systems.|I build production ML pipelines.|I build computer vision products.|I build data platforms."
-          ></p>
-          <div class="cta">
-            <a class="btn p" href="#work">Projects</a>
-          </div>
-          <div class="meta">
-            <span>Based in Jakarta, Indonesia</span
-            ><span>Undergraduate CS Student, BINUS University</span>
+          <div class="hero-cue" aria-hidden="true">
+            <span>Scroll</span><i></i>
           </div>
         </div>
       </section>

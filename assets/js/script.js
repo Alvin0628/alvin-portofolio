@@ -7,7 +7,7 @@ if(!red)setInterval(()=>{r.style.opacity=0;setTimeout(()=>{i=(i+1)%w.length;r.te
 const t=q('#type');if(t){const p=t.dataset.p.split('|');let i=0,c=0,d=1;
 if(red){t.textContent=p[0]}else(function tick(){const s=p[i];c+=d;t.textContent=s.slice(0,c);let n=d>0?55:26;
 if(d>0&&c===s.length){d=-1;n=1800}else if(d<0&&c===0){d=1;i=(i+1)%p.length;n=350}setTimeout(tick,n)})()}
-const hero=q('.hero');if(hero&&!red){let last=0;
+const hero=q('.hero-stage')||q('.hero');if(hero&&!red){let last=0;
 hero.addEventListener('pointermove',e=>{const b=hero.getBoundingClientRect();
 hero.style.setProperty('--mx',((e.clientX-b.left)/b.width*100)+'%');
 hero.style.setProperty('--my',((e.clientY-b.top)/b.height*100)+'%');
@@ -64,3 +64,51 @@ if(kv.readyState>=2)ready();else kv.addEventListener('loadeddata',ready,{once:tr
 const go=()=>{if(red||!kv.paused)return;const p=kv.play();if(p&&p.catch)p.catch(()=>{})};
 if(red){kv.removeAttribute('autoplay');kv.pause();kv.addEventListener('play',()=>kv.pause())}
 else{go();['pointerdown','touchend','keydown'].forEach(t=>addEventListener(t,go,{passive:true}))}}})();
+
+/* Hero: intro loader, scroll-driven pinned scene, name fitted to the screen */
+(()=>{const q=s=>document.querySelector(s),root=document.documentElement,
+red=matchMedia('(prefers-reduced-motion:reduce)').matches,
+hero=q('.hero'),stage=q('.hero-stage');if(!hero||!stage)return;
+const nm=q('.hero-name'),hm=q('.hero-main'),hi=q('.hero-hi'),stacked=matchMedia('(max-width:800px),(max-aspect-ratio:1/1)');
+const fit=()=>{if(!nm||!hm)return;nm.style.fontSize='100px';
+const need=Math.max(...[...nm.querySelectorAll('.nl>span')].map(s=>s.getBoundingClientRect().width));
+const cs=getComputedStyle(hm),avail=hm.clientWidth-parseFloat(cs.paddingLeft)-parseFloat(cs.paddingRight);
+const hcap=(parseFloat(getComputedStyle(stage).getPropertyValue('--name-h'))||11)/100*stage.offsetHeight;
+if(need>0)nm.style.fontSize=Math.max(28,Math.min(98*avail/need,hcap,260))+'px'};
+const fitHi=()=>{if(!hi)return;const ls=[...hi.querySelectorAll('.hl')];
+ls.forEach(l=>l.style.fontSize='100px');
+const w=ls.map(l=>l.firstElementChild.getBoundingClientRect().width);
+const cs=getComputedStyle(hi),avail=hi.clientWidth-parseFloat(cs.paddingLeft)-parseFloat(cs.paddingRight);
+const lh=.96,hmax=.76*stage.offsetHeight;let sz;
+if(stacked.matches)sz=w.map(x=>98*avail/x);
+else{const s1=98*avail/(w[0]+w[1]+20);sz=[s1,s1,98*avail/w[2]]}
+const tot=stacked.matches?sz.reduce((a,s)=>a+s*lh,0):sz[0]*lh+sz[2]*lh,k=Math.min(1,hmax/tot);
+ls.forEach((l,i)=>l.style.fontSize=(sz[i]*k)+'px');hi.style.columnGap=(.2*sz[0]*k)+'px'};
+const fitAll=()=>{fit();fitHi()};
+fitAll();if(document.fonts&&document.fonts.ready)document.fonts.ready.then(fitAll);
+if(!red){let tgt=0,cur=0,run=false;
+const calc=()=>{const total=hero.offsetHeight-stage.offsetHeight;
+tgt=total>0?Math.min(1,Math.max(0,-hero.getBoundingClientRect().top/total)):0};
+const loop=()=>{cur+=(tgt-cur)*.14;if(Math.abs(tgt-cur)<.0008){cur=tgt;run=false}else requestAnimationFrame(loop);
+stage.style.setProperty('--p',cur.toFixed(4));hero.classList.toggle('hero-early',cur<.48)};
+const onScroll=()=>{calc();if(!run){run=true;requestAnimationFrame(loop)}};
+addEventListener('scroll',onScroll,{passive:true});
+addEventListener('resize',()=>{fitAll();onScroll()});hero.classList.add('hero-early');onScroll()}
+else addEventListener('resize',fitAll);
+const heroIn=()=>hero.classList.add('hero-in'),intro=q('#intro');
+if(!root.classList.contains('has-intro')||!intro){heroIn();return}
+const num=q('#introNum'),bar=q('#introBar'),vid=q('.hero .bg-video'),img=q('.hero-photo img');
+const MIN=1500,MAX=3400;let ready=!vid,imgOk=!img||img.complete,done=false;
+if(vid){if(vid.readyState>=3)ready=true;else vid.addEventListener('canplay',()=>ready=true,{once:true});
+vid.addEventListener('error',()=>ready=true,true)}
+if(img&&!img.complete){img.addEventListener('load',()=>imgOk=true,{once:true});img.addEventListener('error',()=>imgOk=true,{once:true})}
+const t0=performance.now();let shown=0,last=t0;
+const finish=()=>{if(done)return;done=true;num.textContent='100';bar.style.transform='scaleX(1)';
+setTimeout(()=>{intro.classList.add('out');setTimeout(heroIn,380);
+setTimeout(()=>{root.classList.remove('has-intro');try{sessionStorage.setItem('introSeen','1')}catch(e){}},1000)},260)};
+const frame=now=>{const el=now-t0,dt=Math.min(64,now-last);last=now;
+let t=ready&&imgOk&&el>=MIN?1:Math.min(.9,el/MIN*.9);if(el>MAX)t=1;
+shown+=(t-shown)*(1-Math.pow(.0015,dt/1000));
+num.textContent=Math.min(100,Math.round(shown*100));bar.style.transform='scaleX('+shown+')';
+if(shown>.992&&t===1)finish();else requestAnimationFrame(frame)};
+requestAnimationFrame(frame)})();
