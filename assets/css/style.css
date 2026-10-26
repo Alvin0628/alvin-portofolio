@@ -2620,3 +2620,382 @@ html.fs.has-intro {
     display: none;
   }
 }
+
+/* ==========================================================
+   About & Education: editorial layout
+   (video background and maroon palette are unchanged)
+   ========================================================== */
+.about .w.ab {
+  display: block;
+}
+
+/* header: small label + one big statement */
+.ab-head {
+  margin-bottom: clamp(48px, 8vh, 84px);
+}
+
+.about h2.ab-label {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin: 0 0 clamp(22px, 4vh, 36px);
+  font:
+    500 0.8rem ui-monospace,
+    SFMono-Regular,
+    Menlo,
+    monospace;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: #b2b3b6;
+}
+
+.ab-label:before {
+  content: "";
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--acc);
+  box-shadow: 0 0 0 4px color-mix(in srgb, var(--acc) 22%, transparent);
+}
+
+.ab-label:after {
+  content: "";
+  height: 1px;
+  flex: 1;
+  background: linear-gradient(90deg, rgba(234, 233, 231, 0.28), transparent);
+}
+
+.about .lead.ab-lead {
+  max-width: 19em;
+  margin: 0;
+  font:
+    600 clamp(1.8rem, 4vw, 3.4rem) / 1.1 "Space Grotesk",
+    Inter,
+    system-ui,
+    sans-serif;
+  letter-spacing: -0.035em;
+  opacity: 1;
+}
+
+.about .lead.ab-lead:before {
+  content: none;
+}
+
+.ab-lead em {
+  font-style: normal;
+}
+
+.ab-lead .u {
+  text-decoration: underline;
+  text-decoration-color: var(--acc);
+  text-decoration-thickness: 0.07em;
+  text-underline-offset: 0.14em;
+}
+
+.ab-lead .g {
+  background: linear-gradient(100deg, #ffdca3 0%, #ffb057 35%, #ff6a3d 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* body: story on the left, bento on the right */
+.ab-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr);
+  gap: clamp(40px, 6vw, 88px);
+  align-items: start;
+}
+
+.ab-story {
+  position: relative;
+  padding-left: clamp(18px, 2vw, 28px);
+}
+
+.ab-story:before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 6px;
+  bottom: 6px;
+  width: 2px;
+  border-radius: 2px;
+  background: linear-gradient(
+    180deg,
+    var(--acc),
+    rgba(234, 233, 231, 0.2) 35%,
+    rgba(234, 233, 231, 0.06)
+  );
+}
+
+.about .ab-story p {
+  max-width: 60ch;
+  margin: 0 0 1.5em;
+  font-size: 1.04rem;
+  line-height: 1.8;
+  color: #eae9e7;
+  opacity: 0.88;
+}
+
+.about .ab-story p:first-child {
+  font-size: 1.12rem;
+  opacity: 0.96;
+}
+
+.about .ab-story p:last-child {
+  margin-bottom: 0;
+}
+
+/* shared glass card with a cursor-following highlight */
+.ab-card {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid rgba(234, 233, 231, 0.16);
+  background: rgba(234, 233, 231, 0.05);
+  border-radius: 18px;
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+  transition:
+    opacity 0.8s,
+    transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1),
+    border-color 0.3s,
+    background 0.3s,
+    box-shadow 0.3s;
+}
+
+.ab-card:before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: radial-gradient(
+    280px circle at var(--mx, 50%) var(--my, 0%),
+    rgba(255, 255, 255, 0.12),
+    transparent 62%
+  );
+  opacity: 0;
+  transition: opacity 0.3s;
+  pointer-events: none;
+}
+
+.ab-card:hover {
+  transform: translateY(-4px);
+  border-color: color-mix(in srgb, var(--acc) 55%, transparent);
+  background: color-mix(in srgb, var(--acc) 7%, rgba(234, 233, 231, 0.04));
+  box-shadow: 0 22px 40px -24px rgba(0, 0, 0, 0.7);
+}
+
+.ab-card:hover:before {
+  opacity: 1;
+}
+
+/* focus areas: wide - narrow - narrow - wide */
+.ab-focus {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.ab-focus .ab-card {
+  display: flex;
+  flex-direction: column;
+  padding: 20px 22px 22px;
+}
+
+.ab-focus .ab-card:nth-child(1),
+.ab-focus .ab-card:nth-child(4) {
+  grid-column: 1 / -1;
+}
+
+.ab-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 26px;
+}
+
+.ab-top svg {
+  width: 26px;
+  height: 26px;
+  fill: none;
+  stroke: var(--acc);
+  stroke-width: 1.6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  opacity: 0.9;
+}
+
+.ab-n {
+  font:
+    500 0.78rem ui-monospace,
+    SFMono-Regular,
+    Menlo,
+    monospace;
+  letter-spacing: 0.14em;
+  color: #b2b3b6;
+  transition: color 0.3s;
+}
+
+.ab-card:hover .ab-n {
+  color: var(--acc);
+}
+
+.ab-focus b {
+  display: block;
+  margin-bottom: 8px;
+  font:
+    700 1.25rem / 1.2 "Space Grotesk",
+    Inter,
+    system-ui,
+    sans-serif;
+  letter-spacing: -0.02em;
+}
+
+.ab-focus .ab-card > span:last-child {
+  display: block;
+  font-size: 0.92rem;
+  line-height: 1.6;
+  opacity: 0.82;
+}
+
+/* education */
+.ab-edu {
+  margin-top: clamp(64px, 11vh, 110px);
+}
+
+.ab-h3 {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin: 0 0 24px;
+  font-size: clamp(1.6rem, 2.6vw, 2.2rem);
+}
+
+.ab-h3:before {
+  content: "";
+  flex: none;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--acc);
+  box-shadow: 0 0 0 4px color-mix(in srgb, var(--acc) 22%, transparent);
+}
+
+.ab-h3:after {
+  content: "";
+  height: 1px;
+  flex: 1;
+  background: linear-gradient(90deg, rgba(234, 233, 231, 0.28), transparent);
+}
+
+.ab-edu-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+  gap: 14px;
+}
+
+.ab-school {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 24px;
+  padding: 26px 28px;
+  border-left: 3px solid var(--acc);
+}
+
+.ab-school small {
+  display: inline-block;
+  margin-bottom: 14px;
+  padding: 5px 12px;
+  border-radius: 14px;
+  font-size: 0.76rem;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  line-height: 1.4;
+  color: var(--acc);
+  background: color-mix(in srgb, var(--acc) 14%, transparent);
+}
+
+.ab-school b {
+  display: block;
+  font:
+    700 clamp(1.4rem, 2.2vw, 1.9rem) / 1.15 "Space Grotesk",
+    Inter,
+    system-ui,
+    sans-serif;
+  letter-spacing: -0.025em;
+}
+
+.about .ab-school p {
+  margin: 8px 0 0;
+  font-size: 0.98rem;
+  opacity: 0.85;
+}
+
+.about .ab-school .ab-gpa {
+  flex: none;
+  margin: 0;
+  text-align: right;
+  line-height: 1;
+  opacity: 1;
+}
+
+.ab-gpa span {
+  display: block;
+  font:
+    500 0.74rem ui-monospace,
+    SFMono-Regular,
+    Menlo,
+    monospace;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: #b2b3b6;
+}
+
+.ab-gpa strong {
+  display: block;
+  margin: 8px 0 6px;
+  font:
+    700 clamp(2.6rem, 5vw, 4.2rem) / 0.9 "Space Grotesk",
+    Inter,
+    system-ui,
+    sans-serif;
+  letter-spacing: -0.05em;
+  background: linear-gradient(100deg, #ffdca3 0%, #ffb057 45%, #ff6a3d 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+@media (max-width: 1000px) {
+  .ab-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .ab-edu-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 600px) {
+  .ab-focus {
+    grid-template-columns: 1fr;
+  }
+
+  .ab-top {
+    margin-bottom: 18px;
+  }
+
+  .ab-school {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 22px;
+  }
+
+  .about .ab-school .ab-gpa {
+    text-align: left;
+  }
+}

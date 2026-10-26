@@ -112,3 +112,8 @@ shown+=(t-shown)*(1-Math.pow(.0015,dt/1000));
 num.textContent=Math.min(100,Math.round(shown*100));bar.style.transform='scaleX('+shown+')';
 if(shown>.992&&t===1)finish();else requestAnimationFrame(frame)};
 requestAnimationFrame(frame)})();
+
+/* About: cursor-following highlight on the cards */
+(()=>{const sec=document.getElementById('about');if(!sec||!matchMedia('(hover:hover)').matches)return;
+sec.addEventListener('pointermove',e=>{const c=e.target.closest&&e.target.closest('.ab-card');if(!c)return;
+const r=c.getBoundingClientRect();c.style.setProperty('--mx',(e.clientX-r.left)+'px');c.style.setProperty('--my',(e.clientY-r.top)+'px')},{passive:true})})();
